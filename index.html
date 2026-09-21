@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Divide la Spesa</title>
+
+<!-- SEO / Anteprima social (WhatsApp, Telegram...) -->
+<meta name="description" content="Dividi le spese di gruppo tra amici: cene, viaggi, gite. Calcolo automatico di chi deve dare quanto a chi.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Divide la Spesa">
+<meta property="og:description" content="Dividi le spese di gruppo tra amici: calcolo automatico di chi deve dare quanto a chi.">
+<meta property="og:image" content="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMjU2M0VCIi8+PHRleHQgeD0iMjU2IiB5PSIzMzAiIGZvbnQtc2l6ZT0iMzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn6e+PC90ZXh0Pjwvc3ZnPg==">
+<meta name="theme-color" content="#2563EB">
+
+<!-- PWA / installazione su schermata Home -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Divide Spesa">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkRpdmlkZSBsYSBTcGVzYSIsICJzaG9ydF9uYW1lIjogIkRpdmlkZSBTcGVzYSIsICJkZXNjcmlwdGlvbiI6ICJEaXZpZGkgbGUgc3Blc2UgZGkgZ3J1cHBvIHRyYSBhbWljaTogY2FsY29sbyBhdXRvbWF0aWNvIGRpIGNoaSBkZXZlIGRhcmUgcXVhbnRvIGEgY2hpLiIsICJzdGFydF91cmwiOiAiLi9pbmRleC5odG1sIiwgInNjb3BlIjogIi4vIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGM0Y0RjIiLCAidGhlbWVfY29sb3IiOiAiIzI1NjNFQiIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBMU1USWdOVEV5SWo0OGNtVmpkQ0IzYVdSMGFEMGlOVEV5SWlCb1pXbG5hSFE5SWpVeE1pSWdjbmc5SWprMklpQm1hV3hzUFNJak1qVTJNMFZDSWk4K1BIUmxlSFFnZUQwaU1qVTJJaUI1UFNJek16QWlJR1p2Ym5RdGMybDZaVDBpTXpBd0lpQjBaWGgwTFdGdVkyaHZjajBpYldsa1pHeGxJajd3bjZlK1BDOTBaWGgwUGp3dmMzWm5QZz09IiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMjU2M0VCIi8+PHRleHQgeD0iMjU2IiB5PSIzMzAiIGZvbnQtc2l6ZT0iMzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn6e+PC90ZXh0Pjwvc3ZnPg==">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMjU2M0VCIi8+PHRleHQgeD0iMjU2IiB5PSIzMzAiIGZvbnQtc2l6ZT0iMzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn6e+PC90ZXh0Pjwvc3ZnPg==">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F3F4F2;
+  --bg-panel: #FFFFFF;
+  --bg-sunk: #F7F8F6;
+  --ink: #1B211E;
+  --ink-soft: #6E7770;
+  --ink-faint: #9AA29B;
+  --line: #E3E5E0;
+  --teal: #2563EB;
+  --teal-soft: #DCE8FE;
+  --indigo: #D6006E;
+  --indigo-soft: #FBD9E9;
+  --amber: #E88A00;
+  --amber-soft: #FCE6C2;
+  --credit: #16A34A;
+  --debit: #DC2626;
+  --debit-soft: #FBDADA;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --shadow: 0 1px 2px rgba(20,24,22,0.05), 0 2px 8px rgba(20,24,22,0.04);
+  font-size: 15px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141815; --bg-panel: #1C211E; --bg-sunk: #20241F;
+    --ink: #ECEEEA; --ink-soft: #9BA39B; --ink-faint: #6C756D; --line: #333A34;
+    --teal: #5B9BFF; --teal-soft: #172A4A;
+    --indigo: #FF5FA8; --indigo-soft: #46203A;
+    --amber: #FFB238; --amber-soft: #40300F;
+    --credit: #4ADE80; --debit: #FF6B6B; --debit-soft: #402323;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.28);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141815; --bg-panel: #1C211E; --bg-sunk: #20241F;
+  --ink: #ECEEEA; --ink-soft: #9BA39B; --ink-faint: #6C756D; --line: #333A34;
+  --teal: #5B9BFF; --teal-soft: #172A4A;
+  --indigo: #FF5FA8; --indigo-soft: #46203A;
+  --amber: #FFB238; --amber-soft: #40300F;
+  --credit: #4ADE80; --debit: #FF6B6B; --debit-soft: #402323;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.28);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: 'Work Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.45; padding-bottom: calc(66px + env(safe-area-inset-bottom));
+  font-variant-numeric: tabular-nums;
+}
+.wrap { max-width: 520px; margin: 0 auto; padding: 0 14px; }
+
+header.appbar {
+  padding: 10px 14px 8px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--line); background: var(--bg-panel);
+  position: sticky; top: 0; z-index: 5;
+}
+header.appbar .wrap { display: flex; align-items: center; gap: 10px; padding: 0 6px; width: 100%; max-width: 520px; }
+header.appbar .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--teal); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+header.appbar h1 { font-size: 0.98rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+header.appbar .evt-input { flex: 1; min-width: 0; border: none; background: transparent; color: var(--ink-soft);
+  font-size: 0.82rem; font-family: inherit; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+header.appbar .evt-input:focus { outline: none; color: var(--ink); border-color: var(--teal); }
+
+main { padding-top: 9px; }
+.tabpanel { display: none; }
+.tabpanel.active { display: block; }
+
+.card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+  padding: 11px; margin-bottom: 9px; box-shadow: var(--shadow); }
+.section-head { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
+.section-head .si { font-size: 1rem; line-height: 1; }
+.section-head h2 { font-size: 0.92rem; font-weight: 700; margin: 0; }
+.section-hint { color: var(--ink-faint); font-size: 0.74rem; margin: 0 0 8px 0; }
+
+label { display: block; font-size: 0.7rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 3px; }
+input[type="text"], input[type="number"], input[type="tel"], select {
+  width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: var(--radius-s);
+  background: var(--bg-sunk); color: var(--ink); font-family: inherit; font-size: 0.88rem;
+  -webkit-appearance: none; appearance: none;
+}
+select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-faint) 50%), linear-gradient(135deg, var(--ink-faint) 50%, transparent 50%);
+  background-position: calc(100% - 16px) center, calc(100% - 11px) center;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 28px;
+}
+input:focus, select:focus, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
+.field { margin-bottom: 7px; }
+.field:last-child { margin-bottom: 0; }
+.row { display: flex; gap: 8px; }
+.row > .field { flex: 1; min-width: 0; }
+
+button { font-family: inherit; cursor: pointer; border: none; border-radius: var(--radius-s);
+  font-weight: 600; font-size: 0.86rem; padding: 10px 14px; }
+button.primary { background: var(--teal); color: #fff; width: 100%; }
+button.primary:active { opacity: 0.85; }
+button.ghost { background: var(--bg-sunk); color: var(--ink); border: 1px solid var(--line); width: 100%; }
+button.small { padding: 8px 12px; font-size: 0.8rem; }
+button.icon-btn { background: transparent; color: var(--ink-faint); padding: 4px 6px; font-size: 0.88rem; }
+button.icon-btn:hover { color: var(--debit); }
+.btn-row { display: flex; gap: 8px; }
+.btn-row button { flex: 1; }
+.btn-row .icon-square-btn { flex: 0 0 48px; width: 48px; padding: 10px 0; text-align: center; flex-shrink: 0; }
+
+.subfields { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+
+.person-add-row { gap: 6px; margin-bottom: 10px; }
+.person-add-row .field { margin-bottom: 0; min-width: 0; }
+.person-add-row .pf-name { flex: 1.3; }
+.person-add-row .pf-role { flex: 1.05; }
+.person-add-row .pf-quota { flex: 1; }
+.person-add-row label { font-size: 0.66rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.person-add-row select, .person-add-row input[type="text"] { padding-left: 7px; padding-right: 20px; font-size: 0.8rem; }
+
+.phone-add-row { align-items: flex-end; margin-top: 8px; }
+.phone-add-row button { flex: 0 0 auto; width: auto; padding: 7px 16px; white-space: nowrap; }
+
+/* avatar */
+.avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; flex-shrink: 0; color: var(--teal); background: var(--teal-soft); }
+.avatar.role-host { color: var(--indigo); background: var(--indigo-soft); }
+.avatar.role-figlio { color: var(--amber); background: var(--amber-soft); }
+
+.plist { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.prow { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--line);
+  border-radius: var(--radius-s); background: var(--bg-sunk); }
+.prow .pname { font-weight: 600; font-size: 0.87rem; }
+.prow .ptag { font-size: 0.7rem; color: var(--ink-faint); display: block; }
+.prow .pmeta { flex: 1; min-width: 0; }
+
+.item-card { border: 1px solid var(--line); border-radius: var(--radius-s); padding: 8px 9px; margin-bottom: 6px; background: var(--bg-sunk); }
+.item-card .row + .field, .item-card .field + .field { margin-top: 7px; }
+.item-card .field { margin-bottom: 7px; }
+.item-card .item-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.item-card .item-title-row .idx { font-size: 0.68rem; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.03em; }
+.item-edit-actions { margin-top: 8px; }
+.item-card .row { gap: 6px; }
+.item-card .row .field.payer-field { flex: 1.3; min-width: 0; }
+.item-card .row .field.desc-field { flex: 1.3; min-width: 0; }
+.item-card .row .field.amount-field { flex: 0 0 58px; max-width: 58px; }
+.item-card .row select, .item-card .row input { padding-left: 7px; padding-right: 22px; font-size: 0.82rem; }
+.item-card .row .amount-field input { padding-right: 7px; }
+.item-card .row .field.payer-field label,
+.item-card .row .field.desc-field label,
+.item-card .row .field.amount-field label { font-size: 0.66rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.item-strip { display: flex; align-items: center; gap: 8px; padding: 6px 9px; margin-bottom: 6px;
+  border: 1px solid var(--line); border-radius: var(--radius-s); background: var(--bg-sunk); }
+.item-strip .strip-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+
+/* Exception box */
+.exception-box { margin-top: 7px; padding: 8px; border: 1px dashed var(--line); border-radius: var(--radius-s); background: var(--bg-panel); }
+.exception-box .exc-title { font-size: 0.66rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.02em; }
+.exception-row { display: flex; gap: 6px; align-items: flex-end; }
+.exception-row .field { flex: 1; margin-bottom: 0; }
+.exception-row button { flex-shrink: 0; }
+.exception-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+.chip-excluded { background: var(--debit-soft); color: var(--debit); }
+.chip-included { background: var(--teal-soft); color: var(--teal); }
+.chip button { background: none; border: none; color: inherit; padding: 0; font-size: 0.9rem; line-height: 1; }
+
+.total-check { display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; margin-top: 2px; border-top: 1px dashed var(--line); font-size: 0.85rem; }
+.total-check .amt { font-weight: 800; font-size: 1.15rem; color: var(--teal); }
+
+.result-card { border: 1px solid var(--line); border-radius: var(--radius-s); padding: 8px 10px; margin-bottom: 6px; background: var(--bg-sunk); }
+.result-top { display: flex; align-items: center; gap: 9px; }
+.result-name { font-weight: 700; font-size: 0.88rem; flex: 1; min-width: 0; }
+.result-role { font-size: 0.68rem; color: var(--ink-faint); font-weight: 500; }
+.result-amount { font-weight: 800; font-size: 1.05rem; white-space: nowrap; }
+.child-line { font-size: 0.74rem; color: var(--ink-faint); margin-top: 4px; padding-left: 35px; }
+.balance-line { font-size: 0.76rem; margin-top: 7px; padding-top: 7px; border-top: 1px dashed var(--line); display: flex; justify-content: space-between; }
+.balance-pos { color: var(--credit); font-weight: 700; }
+.balance-neg { color: var(--debit); font-weight: 700; }
+details.detail { margin-top: 6px; }
+details.detail summary { cursor: pointer; font-size: 0.7rem; color: var(--ink-faint); }
+details.detail .breakdown-line { font-size: 0.76rem; display: flex; justify-content: space-between; padding: 2px 0; }
+
+.settle-list { display: flex; flex-direction: column; gap: 6px; }
+.settle-line { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-s); background: var(--debit-soft); font-size: 0.82rem; }
+.settle-line .arrow { color: var(--debit); font-weight: 700; }
+.settle-line .amt { margin-left: auto; font-weight: 800; }
+.level-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--line);
+  border-radius: var(--radius-s); background: var(--bg-sunk); margin-bottom: 6px; }
+.level-row .lname { flex: 1; min-width: 0; font-weight: 600; font-size: 0.83rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.level-vals { display: flex; gap: 10px; }
+.level-vals .lv { text-align: right; min-width: 52px; }
+.level-vals .lv .llabel { display: block; font-size: 0.6rem; color: var(--ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
+.level-vals .lv .lval { font-size: 0.8rem; font-weight: 700; }
+.level-vals .lv.richiesto .lval { color: var(--teal); }
+.empty-note { color: var(--ink-faint); font-size: 0.82rem; font-style: italic; }
+.subhead { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); margin: 10px 0 6px; }
+.subhead:first-child { margin-top: 0; }
+
+.hist-row { display: flex; align-items: center; gap: 8px; padding: 6px 9px; border: 1px solid var(--line); border-radius: var(--radius-s); margin-bottom: 5px; background: var(--bg-sunk); }
+.hist-row .hname { font-weight: 600; font-size: 0.85rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hist-row .hmeta { font-size: 0.68rem; color: var(--ink-faint); flex-shrink: 0; }
+
+nav.tabbar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--bg-panel);
+  border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); z-index: 10; }
+nav.tabbar button { flex: 1; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 2px; border-radius: var(--radius-s); color: var(--ink-faint); font-size: 0.64rem; font-weight: 600; }
+nav.tabbar button .ic { font-size: 1.15rem; }
+nav.tabbar button.active { color: var(--teal); }
+/* ==================== CONDIVISIONE / EXPORT / STAMPA ==================== */
+.share-btn { background: #25D366; color: #fff; }
+.share-btn:active { opacity: .85; }
+.wa-link { display: inline-flex; align-items: center; gap: 4px; color: #25D366; font-weight: 700;
+  text-decoration: none; font-size: 0.78rem; flex-shrink: 0; }
+.export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.export-grid button { font-size: 0.8rem; }
+.file-import-label {
+  display: block; text-align: center; box-sizing: border-box; cursor: pointer;
+  font-family: inherit; font-weight: 600; font-size: 0.8rem; padding: 10px 14px;
+  border-radius: var(--radius-s); background: var(--bg-sunk); color: var(--ink); border: 1px solid var(--line);
+}
+.file-import-label input[type="file"] { display: none; }
+#toast {
+  position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 20px;
+  font-size: 0.84rem; font-weight: 600; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s; z-index: 50; white-space: nowrap; box-shadow: var(--shadow);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 60;
+  display: none; align-items: flex-end; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--bg-panel); width: 100%; max-width: 520px; border-radius: 16px 16px 0 0;
+  padding: 16px; max-height: 82vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; }
+.modal-head .modal-title { font-weight: 800; font-size: 1rem; }
+#shareTextArea {
+  width: 100%; min-height: 170px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-s);
+  background: var(--bg-sunk); color: var(--ink); font-family: inherit; font-size: 0.84rem; resize: vertical;
+}
+.guide-block { margin-bottom: 14px; }
+.guide-block:last-child { margin-bottom: 0; }
+.guide-block h3 { font-size: 0.86rem; font-weight: 800; margin: 0 0 8px 0; color: var(--teal); }
+.guide-item { display: flex; gap: 10px; padding: 6px 0; font-size: 0.83rem; align-items: flex-start; }
+.guide-item .gi-ic { flex-shrink: 0; width: 22px; text-align: center; }
+.guide-item .gi-txt b { display: block; color: var(--ink); }
+.guide-item .gi-txt span { color: var(--ink-soft); }
+.appbar-info-btn {
+  background: transparent; border: none; color: var(--ink-soft); font-size: 1.1rem;
+  padding: 4px 6px; flex-shrink: 0; cursor: pointer;
+}
+
+@media print {
+  body { padding-bottom: 0; background: #fff !important; color: #000 !important; }
+  header.appbar, nav.tabbar, .btn-row, button, .subfields, #toast, .modal-overlay,
+  #tab-persone, #tab-voci, #tab-storico { display: none !important; }
+  #tab-conto { display: block !important; }
+  .card { box-shadow: none; border: 1px solid #ccc; background: #fff !important; }
+  .result-card, .settle-line, .level-row, .item-strip { background: #fff !important; border: 1px solid #ddd; }
+  .result-amount, .amt, .total-check .amt { color: #000 !important; }
+  main { padding-top: 0; }
+  .wrap { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="wrap">
+    <span class="mark">🧾</span>
+    <h1>Divide la Spesa</h1>
+    <input type="text" class="evt-input" id="eventName" placeholder="Nome evento (facoltativo)">
+    <button class="appbar-info-btn" id="infoBtn" type="button" title="Guida">ℹ️</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- TAB: PERSONE -->
+  <section class="tabpanel active" id="tab-persone">
+    <div class="card">
+      <div class="section-head"><span class="si">👥</span><h2>Aggiungi persona</h2></div>
+
+      <div class="row person-add-row">
+        <div class="field pf-name">
+          <label for="pName">Nome</label>
+          <input type="text" id="pName" placeholder="Nome" list="nameSuggestions" autocomplete="off">
+          <datalist id="nameSuggestions"></datalist>
+        </div>
+        <div class="field pf-role">
+          <label for="pRole">Ruolo</label>
+          <select id="pRole">
+            <option value="normale">Partecipante</option>
+            <option value="host">Organizzatore</option>
+            <option value="figlio">Figlio/a</option>
+          </select>
+        </div>
+        <div class="field pf-quota">
+          <label>Quota</label>
+          <select id="normaleQuota">
+            <option value="piena">Intera</option>
+            <option value="meta">Mezza</option>
+            <option value="zero">Non paga</option>
+            <option value="fissa">Fissa</option>
+          </select>
+          <select id="hostQuota" style="display:none">
+            <option value="piena">Intera</option>
+            <option value="meta">Mezza</option>
+            <option value="zero">Non paga</option>
+            <option value="fissa">Fissa</option>
+          </select>
+          <select id="figlioQuota" style="display:none">
+            <option value="meta">Metà</option>
+            <option value="zero">Non paga</option>
+            <option value="piena">Intera</option>
+            <option value="fissa">Fissa</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Campi extra per Figlio/a -->
+      <div class="subfields" id="figlioFields" style="display:none">
+        <div class="field">
+          <label for="figlioParent">Collegato a</label>
+          <select id="figlioParent"><option value="">— nessuno —</option></select>
+        </div>
+        <div class="field" id="figlioFixedField" style="display:none;">
+          <label for="figlioFixedAmount">Importo fisso €</label>
+          <input type="number" id="figlioFixedAmount" min="0" step="0.01" placeholder="0.00">
+        </div>
+      </div>
+
+      <!-- Campi extra per Organizzatore -->
+      <div class="subfields" id="hostFields" style="display:none">
+        <div class="field" id="hostFixedField" style="display:none;">
+          <label for="hostFixedAmount">Importo fisso €</label>
+          <input type="number" id="hostFixedAmount" min="0" step="0.01" placeholder="0.00">
+        </div>
+      </div>
+
+      <!-- Campi extra per Partecipante Normale -->
+      <div class="subfields" id="normaleFields" style="display:none">
+        <div class="field" id="normaleFixedField" style="display:none;">
+          <label for="normaleFixedAmount">Importo fisso €</label>
+          <input type="number" id="normaleFixedAmount" min="0" step="0.01" placeholder="0.00">
+        </div>
+      </div>
+
+      <div class="row phone-add-row">
+        <div class="field" style="flex:1;">
+          <label for="pPhone">Telefono (facoltativo)</label>
+          <input type="tel" id="pPhone" placeholder="Es. 3331234567">
+        </div>
+        <button class="ghost" id="cancelPersonEditBtn" type="button" style="display:none;">✕ Annulla</button>
+        <button class="primary" id="addPersonBtn" type="button">+ Aggiungi</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><span class="si">📋</span><h2>Elenco</h2></div>
+      <div class="plist" id="plist"></div>
+    </div>
+  </section>
+
+  <!-- TAB: VOCI -->
+  <section class="tabpanel" id="tab-voci">
+    <div class="card">
+      <div class="section-head"><span class="si">🧾</span><h2>Voci di spesa</h2></div>
+      <div id="itemsList"></div>
+      <div class="btn-row" style="margin-top:2px;">
+        <button class="ghost" id="addItemBtn" type="button">+ Aggiungi voce</button>
+      </div>
+      <div class="total-check">
+        <span>Spesa complessiva</span>
+        <span class="amt" id="grandTotal">0,00 €</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB: CONTO -->
+  <section class="tabpanel" id="tab-conto">
+    <div class="card">
+      <div class="btn-row">
+        <button class="share-btn" id="shareBtn" type="button" style="flex:1;">📤 Condividi Conto</button>
+        <button class="ghost icon-square-btn" id="printBtn" type="button" title="Stampa / PDF">🖨️</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="subhead">Quanto deve ciascuno</div>
+      <div id="resultsList"></div>
+      <div class="subhead">Chi deve dare a chi</div>
+      <div class="settle-list" id="settleList"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><span class="si">⚖️</span><h2>Ripartizione equa e arrotondamento</h2></div>
+      <p class="section-hint">Quota ricalcolata mantenendo la spesa reale individuale e arrotondata per eccesso al mezzo euro.</p>
+      <div id="livelliList"></div>
+      <div class="total-check" style="flex-direction:column; align-items:stretch; gap:5px;">
+        <div style="display:flex;justify-content:space-between;"><span>Totale reale</span><span id="totReale">0,00 €</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>Totale equo</span><span id="totEquo">0,00 €</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>Totale richiesto</span><span class="amt" id="totRichiesto">0,00 €</span></div>
+        <div style="display:flex;justify-content:space-between;color:var(--debit);font-weight:700;"><span>Differenza (surplus)</span><span id="totSurplus">0,00 €</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB: STORICO -->
+  <section class="tabpanel" id="tab-storico">
+    <div class="card">
+      <div class="section-head"><span class="si">🕓</span><h2>Storico</h2></div>
+      <p class="section-hint">Salvato solo su questo dispositivo/browser.</p>
+      <div class="btn-row" style="margin-bottom:12px;">
+        <button class="primary" id="saveEventBtn" type="button">💾 Salva</button>
+        <button class="ghost" id="newEventBtn" type="button">🗑️ Nuova</button>
+      </div>
+      <div id="histList"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><span class="si">🗂️</span><h2>Backup ed esportazione</h2></div>
+      <p class="section-hint">Esporta o importa i dati per passarli da un telefono all'altro, o per aprirli in Excel.</p>
+      <div class="export-grid">
+        <button class="ghost" id="exportJsonBtn" type="button">⬇️ Esporta JSON</button>
+        <label class="ghost file-import-label" for="importJsonInput">⬆️ Importa JSON
+          <input type="file" id="importJsonInput" accept="application/json">
+        </label>
+        <button class="ghost" id="exportCsvBtn" type="button">📊 Esporta CSV</button>
+        <button class="ghost" id="printBtn2" type="button">🖨️ Stampa / PDF</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar" id="tabbar">
+  <button type="button" class="active" data-tab="tab-persone"><span class="ic">👥</span>Persone</button>
+  <button type="button" data-tab="tab-voci"><span class="ic">🧾</span>Voci</button>
+  <button type="button" data-tab="tab-conto"><span class="ic">📊</span>Conto</button>
+  <button type="button" data-tab="tab-storico"><span class="ic">🕓</span>Storico</button>
+</nav>
+
+<div id="toast"></div>
+
+<!-- MODALE CONDIVISIONE (con fallback copia manuale sempre funzionante) -->
+<div class="modal-overlay" id="shareModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="modal-title">📤 Condividi conto</span>
+      <button class="icon-btn" id="shareModalClose" type="button">✕</button>
+    </div>
+    <p class="section-hint" style="margin:0;">Tocca "Copia testo", oppure seleziona il testo qui sotto e copialo a mano, poi incollalo dove vuoi (WhatsApp, Messaggi...).</p>
+    <textarea id="shareTextArea" readonly></textarea>
+    <button class="primary" id="shareCopyBtn" type="button">📋 Copia testo</button>
+  </div>
+</div>
+
+<!-- MODALE GUIDA -->
+<div class="modal-overlay" id="infoModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="modal-title">ℹ️ Guida rapida</span>
+      <button class="icon-btn" id="infoModalClose" type="button">✕</button>
+    </div>
+
+    <div class="guide-block">
+      <h3>👥 Persone</h3>
+      <div class="guide-item"><span class="gi-ic">🧭</span><span class="gi-txt"><b>Ruolo</b><span>Partecipante paga quota piena, Organizzatore di norma non paga, Figlio/a è collegato a un adulto (paga metà, zero o quota intera).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">📱</span><span class="gi-txt"><b>Telefono</b><span>Facoltativo: se lo inserisci, nella scheda Conto compare un link WhatsApp diretto per sollecitare quella persona.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Rimuovi</b><span>Elimina la persona dall'elenco.</span></span></div>
+    </div>
+
+    <div class="guide-block">
+      <h3>🧾 Voci</h3>
+      <div class="guide-item"><span class="gi-ic">＋</span><span class="gi-txt"><b>Aggiungi voce</b><span>Crea una nuova voce di spesa e comprime le precedenti in una striscia riassuntiva.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✏️</span><span class="gi-txt"><b>Modifica</b><span>Riapre una voce compressa per modificarla.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Elimina voce</b><span>Rimuove quella voce di spesa.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⚙️</span><span class="gi-txt"><b>Eccezioni</b><span>Includi o escludi una persona specifica da quella voce (es. chi non partecipa a una spesa).</span></span></div>
+    </div>
+
+    <div class="guide-block">
+      <h3>📊 Conto</h3>
+      <div class="guide-item"><span class="gi-ic">📤</span><span class="gi-txt"><b>Condividi Conto</b><span>Invia il riepilogo (totale e saldi) via WhatsApp o altre app, oppure lo copia per incollarlo a mano.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🖨️</span><span class="gi-txt"><b>Stampa / PDF</b><span>Apre la stampa del browser per salvare o stampare una ricevuta pulita del conto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">💬</span><span class="gi-txt"><b>WhatsApp diretto</b><span>Accanto a un saldo, apre una chat WhatsApp già pronta con quella persona (solo se ha un telefono salvato).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⚖️</span><span class="gi-txt"><b>Reale / Equo / Richiesto</b><span>Reale è la quota esatta calcolata; Equo la ridistribuisce per peso familiare; Richiesto la arrotonda per eccesso al mezzo euro.</span></span></div>
+    </div>
+
+    <div class="guide-block">
+      <h3>🕓 Storico</h3>
+      <div class="guide-item"><span class="gi-ic">💾</span><span class="gi-txt"><b>Salva</b><span>Salva l'evento attuale nello storico del dispositivo.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🗑️</span><span class="gi-txt"><b>Nuova</b><span>Svuota tutto per iniziare un evento nuovo.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⬇️⬆️</span><span class="gi-txt"><b>Esporta / Importa JSON</b><span>Backup completo da salvare o trasferire su un altro telefono.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">📊</span><span class="gi-txt"><b>Esporta CSV</b><span>Scarica un file apribile in Excel/Fogli con voci e saldi finali.</span></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- TABS ----------
+  const tabbar = document.getElementById('tabbar');
+  tabbar.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-tab]');
+    if(!btn) return;
+    document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    [...tabbar.children].forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+
+  // ---------- STATE ----------
+  // person: {id, name, role: 'normale'|'host'|'figlio', parentId, quota: 'piena'|'meta'|'zero'|'fissa', fixedAmount}
+  // item: {id, desc, amount, payerId, exceptions: {personId: 'excluded'|'included'}, collapsed}
+  let people = [];
+  let items = [];
+  let nextId = 1;
+  let lastComputation = null;
+  let editSnapshots = {}; // id voce -> copia dei dati prima della modifica, per "Annulla"
+  let editingPersonId = null; // se valorizzato, il form "Aggiungi persona" sta modificando questa persona
+
+  function snapshotItem(it){
+    editSnapshots[it.id] = { desc: it.desc, amount: it.amount, payerId: it.payerId, exceptions: {...it.exceptions} };
+  }
+
+  const fmt = n => (Math.round((n + Number.EPSILON) * 100) / 100)
+    .toLocaleString('it-IT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+
+  function newId(){ return 'p' + (nextId++); }
+  function newItemId(){ return 'i' + (nextId++); }
+
+  function seedItem(){
+    const it = { id: newItemId(), desc: 'Spesa totale', amount: 0, payerId: '', exceptions: {}, collapsed: false };
+    items.push(it);
+    snapshotItem(it);
+  }
+  seedItem();
+
+  function initials(name){
+    const parts = name.trim().split(/\s+/);
+    const s = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
+    return s.toUpperCase() || '?';
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function roleMeta(role){
+    return {
+      normale: {emoji:'👤', label:'Partecipante', cls:'role-normale'},
+      host: {emoji:'🧭', label:'Organizzatore', cls:'role-host'},
+      figlio: {emoji:'🧒', label:'Figlio/a', cls:'role-figlio'}
+    }[role];
+  }
+
+  function quotaLabel(q){
+    return {piena:'quota intera', meta:'metà quota', zero:'non paga', fissa:'quota fissa'}[q] || '';
+  }
+
+  // ---------- ROLE SELECT ----------
+  const pRole = document.getElementById('pRole');
+  pRole.addEventListener('change', updateFormFields);
+
+  document.getElementById('figlioQuota').addEventListener('change', function(){
+    document.getElementById('figlioFixedField').style.display = this.value === 'fissa' ? 'block' : 'none';
+  });
+
+  document.getElementById('hostQuota').addEventListener('change', function(){
+    document.getElementById('hostFixedField').style.display = this.value === 'fissa' ? 'block' : 'none';
+  });
+
+  document.getElementById('normaleQuota').addEventListener('change', function(){
+    document.getElementById('normaleFixedField').style.display = this.value === 'fissa' ? 'block' : 'none';
+  });
+
+  function updateFormFields(){
+    const role = pRole.value;
+    document.getElementById('figlioFields').style.display = role === 'figlio' ? 'block' : 'none';
+    document.getElementById('hostFields').style.display = role === 'host' ? 'block' : 'none';
+    document.getElementById('normaleFields').style.display = role === 'normale' ? 'block' : 'none';
+    document.getElementById('normaleQuota').style.display = role === 'normale' ? 'block' : 'none';
+    document.getElementById('hostQuota').style.display = role === 'host' ? 'block' : 'none';
+    document.getElementById('figlioQuota').style.display = role === 'figlio' ? 'block' : 'none';
+
+    if(role === 'figlio') refreshParentOptions();
+  }
+
+  function refreshParentOptions(){
+    const sel = document.getElementById('figlioParent');
+    const eligible = people.filter(p => p.role !== 'figlio');
+    if(eligible.length === 0){
+      sel.innerHTML = '<option value="">— aggiungi prima un adulto —</option>';
+      return;
+    }
+    const prev = sel.value;
+    sel.innerHTML = eligible.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+    if(eligible.some(p => p.id === prev)) sel.value = prev;
+  }
+
+  // ---------- RUBRICA NOMI (autocomplete) ----------
+  const NAMES_KEY = 'divide-spesa-nomi-frequenti';
+
+  function loadNameFreq(){
+    try { return JSON.parse(localStorage.getItem(NAMES_KEY) || '{}'); } catch(e){ return {}; }
+  }
+  function saveNameFreq(map){
+    try { localStorage.setItem(NAMES_KEY, JSON.stringify(map)); } catch(e){}
+  }
+  function renderNameSuggestions(){
+    const map = loadNameFreq();
+    const names = Object.keys(map).sort((a,b) => map[b] - map[a]);
+    document.getElementById('nameSuggestions').innerHTML =
+      names.map(n => `<option value="${escapeHtml(n)}"></option>`).join('');
+  }
+  function registerNameUsage(name){
+    const map = loadNameFreq();
+    map[name] = (map[name] || 0) + 1;
+    saveNameFreq(map);
+    renderNameSuggestions();
+  }
+
+  // ---------- ADD / EDIT PERSON ----------
+  function setQuotaFieldValue(role, quota){
+    const idMap = { normale: 'normaleQuota', host: 'hostQuota', figlio: 'figlioQuota' };
+    const sel = document.getElementById(idMap[role]);
+    if(sel){ sel.value = quota; sel.dispatchEvent(new Event('change')); }
+  }
+
+  function startEditPerson(id){
+    const p = people.find(pp => pp.id === id);
+    if(!p) return;
+    editingPersonId = id;
+
+    document.getElementById('pName').value = p.name;
+    document.getElementById('pPhone').value = p.phone || '';
+    pRole.value = p.role;
+    updateFormFields(); // mostra i campi giusti per il ruolo, incluso il popolamento di "Collegato a"
+
+    setQuotaFieldValue(p.role, p.quota || 'piena');
+    if(p.quota === 'fissa'){
+      const fixedIdMap = { normale: 'normaleFixedAmount', host: 'hostFixedAmount', figlio: 'figlioFixedAmount' };
+      const fixedInput = document.getElementById(fixedIdMap[p.role]);
+      if(fixedInput) fixedInput.value = p.fixedAmount || 0;
+    }
+    if(p.role === 'figlio'){
+      document.getElementById('figlioParent').value = p.parentId || '';
+    }
+
+    document.getElementById('addPersonBtn').textContent = '💾 Salva modifiche';
+    document.getElementById('cancelPersonEditBtn').style.display = 'block';
+    document.getElementById('pName').focus();
+  }
+
+  function cancelPersonEdit(){
+    editingPersonId = null;
+    document.getElementById('pName').value = '';
+    document.getElementById('pPhone').value = '';
+    pRole.value = 'normale';
+    updateFormFields();
+    document.getElementById('addPersonBtn').textContent = '+ Aggiungi';
+    document.getElementById('cancelPersonEditBtn').style.display = 'none';
+  }
+
+  document.getElementById('cancelPersonEditBtn').addEventListener('click', cancelPersonEdit);
+
+  document.getElementById('addPersonBtn').addEventListener('click', ()=>{
+    const nameInput = document.getElementById('pName');
+    const name = nameInput.value.trim();
+    if(!name){ nameInput.focus(); return; }
+    const role = pRole.value;
+    const phoneInput = document.getElementById('pPhone');
+    const phone = phoneInput.value.trim();
+
+    const person = { id: editingPersonId || newId(), name, role };
+    if(phone) person.phone = phone;
+
+    if(role === 'figlio'){
+      const parentId = document.getElementById('figlioParent').value;
+      if(!parentId){ document.getElementById('figlioParent').focus(); return; }
+      person.parentId = parentId;
+      person.quota = document.getElementById('figlioQuota').value;
+      if(person.quota === 'fissa'){
+        person.fixedAmount = parseFloat(document.getElementById('figlioFixedAmount').value) || 0;
+      }
+    } else if(role === 'host'){
+      person.quota = document.getElementById('hostQuota').value;
+      if(person.quota === 'fissa'){
+        person.fixedAmount = parseFloat(document.getElementById('hostFixedAmount').value) || 0;
+      }
+    } else { // normale
+      person.quota = document.getElementById('normaleQuota').value;
+      if(person.quota === 'fissa'){
+        person.fixedAmount = parseFloat(document.getElementById('normaleFixedAmount').value) || 0;
+      }
+    }
+
+    if(editingPersonId){
+      const idx = people.findIndex(p => p.id === editingPersonId);
+      if(idx !== -1) people[idx] = person;
+      editingPersonId = null;
+      document.getElementById('addPersonBtn').textContent = '+ Aggiungi';
+      document.getElementById('cancelPersonEditBtn').style.display = 'none';
+      showToast('Persona aggiornata ✓');
+    } else {
+      people.push(person);
+    }
+
+    registerNameUsage(name);
+    nameInput.value = '';
+    phoneInput.value = '';
+    nameInput.focus();
+    renderPeople();
+    renderItems();
+    recompute();
+  });
+
+  function removePerson(id){
+    if(editingPersonId === id) cancelPersonEdit();
+    people = people.filter(p => p.id !== id);
+    people.forEach(p => { if(p.parentId === id){ p.parentId = null; } });
+    items.forEach(it => {
+      delete it.exceptions[id];
+      if(it.payerId === id) it.payerId = '';
+    });
+    renderPeople();
+    renderItems();
+    recompute();
+  }
+
+  function renderPeople(){
+    const list = document.getElementById('plist');
+    if(people.length === 0){
+      list.innerHTML = '<p class="empty-note">Ancora nessun partecipante.</p>';
+      refreshParentOptions();
+      return;
+    }
+    list.innerHTML = people.map(p => {
+      const meta = roleMeta(p.role);
+      let tag = meta.label;
+      if(p.role === 'figlio'){
+        const parent = people.find(pp => pp.id === p.parentId);
+        tag += ' · ' + (parent ? escapeHtml(parent.name) : '—') + ' · ' + quotaLabel(p.quota);
+        if(p.quota === 'fissa') tag += ' (' + fmt(p.fixedAmount || 0) + ')';
+      } else {
+        tag += ' · ' + quotaLabel(p.quota);
+        if(p.quota === 'fissa') tag += ' (' + fmt(p.fixedAmount || 0) + ')';
+      }
+      if(p.phone) tag += ' · 📱';
+      return `<div class="prow">
+        <span class="avatar ${meta.cls}">${initials(p.name)}</span>
+        <span class="pmeta"><span class="pname">${escapeHtml(p.name)}</span><span class="ptag">${tag}</span></span>
+        <button class="icon-btn" data-edit-person="${p.id}" title="Modifica" type="button">✏️</button>
+        <button class="icon-btn" data-remove="${p.id}" title="Rimuovi" type="button">✕</button>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('[data-remove]').forEach(btn=>{
+      btn.addEventListener('click', ()=> removePerson(btn.dataset.remove));
+    });
+    list.querySelectorAll('[data-edit-person]').forEach(btn=>{
+      btn.addEventListener('click', ()=> startEditPerson(btn.dataset.editPerson));
+    });
+    refreshParentOptions();
+  }
+
+  // ---------- EXPENSE ITEMS ----------
+  document.getElementById('addItemBtn').addEventListener('click', ()=>{
+    items.forEach(it => { it.collapsed = true; });
+    const newItem = { id: newItemId(), desc: '', amount: 0, payerId: '', exceptions: {}, collapsed: false };
+    items.push(newItem);
+    snapshotItem(newItem);
+    renderItems();
+    recompute();
+  });
+
+  function payerCandidates(){ return people.filter(p => p.role !== 'figlio'); }
+  
+  function isFixed(p){ return p.quota === 'fissa'; }
+  
+  function isDynamic(p){ return p.quota !== 'fissa' && p.quota !== 'zero'; }
+
+  function getDefaultStatus(p){
+    // Default: dinamici inclusi, fissi esclusi
+    if(isFixed(p)) return 'excluded';
+    return 'included';
+  }
+
+  function getEffectiveStatus(item, person){
+    if(item.exceptions[person.id]) return item.exceptions[person.id];
+    return getDefaultStatus(person);
+  }
+
+  function renderItems(){
+    const container = document.getElementById('itemsList');
+    const payers = payerCandidates();
+    
+    container.innerHTML = items.map((it, idx) => {
+      const canDelete = items.length > 1;
+      const payerOpts = `<option value="">— nessuno —</option>` + payers.map(p =>
+        `<option value="${p.id}" ${it.payerId===p.id?'selected':''}>${escapeHtml(p.name)}</option>`).join('');
+
+      if(it.collapsed){
+        const payerName = it.payerId ? (people.find(p => p.id === it.payerId)?.name || '—') : '—';
+        const descText = it.desc ? escapeHtml(it.desc) : (idx===0 ? 'Spesa totale' : 'Voce');
+        return `<div class="item-strip">
+          <span class="strip-text">${escapeHtml(payerName)} · ${descText} · ${fmt(it.amount||0)}</span>
+          <button class="icon-btn" data-edit-item="${it.id}" title="Modifica" type="button">✏️</button>
+          ${canDelete ? `<button class="icon-btn" data-del-item="${it.id}" title="Rimuovi" type="button">✕</button>` : ''}
+        </div>`;
+      }
+      
+      // Render exception chips
+      const exceptionChips = Object.entries(it.exceptions).map(([pid, action]) => {
+        const person = people.find(p => p.id === pid);
+        if(!person) return '';
+        const isInc = action === 'included';
+        return `<span class="chip ${isInc ? 'chip-included' : 'chip-excluded'}">
+          ${escapeHtml(person.name)}: ${isInc ? 'Incluso' : 'Escluso'}
+          <button type="button" data-remove-exc="${pid}" data-item="${it.id}" title="Rimuovi">✕</button>
+        </span>`;
+      }).join('');
+      
+      return `<div class="item-card">
+        <div class="item-title-row">
+          <span class="idx">Voce ${idx+1}</span>
+          ${canDelete ? `<button class="icon-btn" data-del-item="${it.id}" title="Rimuovi" type="button">✕</button>` : ''}
+        </div>
+        <div class="row">
+          <div class="field payer-field">
+            <label>Chi ha pagato</label>
+            <select data-payer="${it.id}">${payerOpts}</select>
+          </div>
+          <div class="field desc-field">
+            <label>Descrizione</label>
+            <input type="text" data-desc="${it.id}" value="${escapeHtml(it.desc)}" placeholder="${idx===0 ? 'Spesa totale' : 'Es. benzina...'}">
+          </div>
+          <div class="field amount-field">
+            <label>€</label>
+            <input type="number" min="0" step="0.5" data-amount="${it.id}" value="${it.amount || ''}" placeholder="0">
+          </div>
+        </div>
+        
+        <div class="exception-box">
+          <div class="exc-title">Eccezioni per questa voce</div>
+          <div class="exception-row">
+            <div class="field">
+              <label>Persona</label>
+              <select data-exc-person="${it.id}">
+                <option value="">— seleziona —</option>
+                ${people.map(p => `<option value="${p.id}">${escapeHtml(p.name)}${isFixed(p) ? ' (Fissa)' : ''}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field" style="max-width: 180px;">
+              <label>Azione</label>
+              <select data-exc-action="${it.id}">
+                <option value="">—</option>
+              </select>
+            </div>
+            <button type="button" class="primary small" data-apply-exc="${it.id}" style="width: auto;">Applica</button>
+          </div>
+          ${exceptionChips ? `<div class="exception-chips">${exceptionChips}</div>` : ''}
+        </div>
+
+        <div class="btn-row item-edit-actions">
+          <button class="ghost" data-cancel-item="${it.id}" type="button">✕ Annulla</button>
+          <button class="primary" data-save-item="${it.id}" type="button">💾 Salva</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Event listeners
+    container.querySelectorAll('[data-payer]').forEach(sel=>{
+      sel.addEventListener('change', ()=>{
+        const it = items.find(i => i.id === sel.dataset.payer);
+        if(it) it.payerId = sel.value;
+        recompute();
+      });
+    });
+    
+    container.querySelectorAll('[data-desc]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const it = items.find(i => i.id === inp.dataset.desc);
+        if(it) it.desc = inp.value;
+      });
+    });
+    
+    container.querySelectorAll('[data-amount]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const it = items.find(i => i.id === inp.dataset.amount);
+        if(it) it.amount = parseFloat(inp.value) || 0;
+        recompute();
+      });
+    });
+    
+    container.querySelectorAll('[data-del-item]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        delete editSnapshots[btn.dataset.delItem];
+        items = items.filter(i => i.id !== btn.dataset.delItem);
+        renderItems();
+        recompute();
+      });
+    });
+
+    container.querySelectorAll('[data-edit-item]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const it = items.find(i => i.id === btn.dataset.editItem);
+        if(it){ snapshotItem(it); it.collapsed = false; }
+        renderItems();
+      });
+    });
+
+    container.querySelectorAll('[data-save-item]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const it = items.find(i => i.id === btn.dataset.saveItem);
+        if(it) it.collapsed = true;
+        delete editSnapshots[btn.dataset.saveItem];
+        renderItems();
+        recompute();
+        showToast('Voce salvata ✓');
+      });
+    });
+
+    container.querySelectorAll('[data-cancel-item]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.dataset.cancelItem;
+        const it = items.find(i => i.id === id);
+        const snap = editSnapshots[id];
+        if(it && snap){
+          it.desc = snap.desc; it.amount = snap.amount; it.payerId = snap.payerId;
+          it.exceptions = {...snap.exceptions};
+        }
+        if(it) it.collapsed = true;
+        delete editSnapshots[id];
+        renderItems();
+        recompute();
+        showToast('Modifiche annullate');
+      });
+    });
+
+    // Exception handling
+    container.querySelectorAll('[data-exc-person]').forEach(sel=>{
+      sel.addEventListener('change', ()=>{
+        const itemId = sel.dataset.excPerson;
+        const personId = sel.value;
+        const actionSel = container.querySelector(`[data-exc-action="${itemId}"]`);
+        
+        if(!personId){
+          actionSel.innerHTML = '<option value="">—</option>';
+          return;
+        }
+        
+        const person = people.find(p => p.id === personId);
+        if(!person) return;
+        
+        // Update action dropdown based on person type
+        if(isFixed(person)){
+          actionSel.innerHTML = `
+            <option value="included">Includi in questa voce</option>
+            <option value="excluded">Escludi (default)</option>
+          `;
+        } else {
+          actionSel.innerHTML = `
+            <option value="excluded">Escludi da questa voce</option>
+            <option value="included">Includi (default)</option>
+          `;
+        }
+      });
+    });
+
+    container.querySelectorAll('[data-apply-exc]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const itemId = btn.dataset.applyExc;
+        const personSel = container.querySelector(`[data-exc-person="${itemId}"]`);
+        const actionSel = container.querySelector(`[data-exc-action="${itemId}"]`);
+        
+        const personId = personSel.value;
+        const action = actionSel.value;
+        
+        if(!personId || !action) return;
+        
+        const item = items.find(i => i.id === itemId);
+        if(!item) return;
+        
+        // If action equals default, remove exception
+        const person = people.find(p => p.id === personId);
+        const defaultStatus = getDefaultStatus(person);
+        
+        if(action === defaultStatus){
+          delete item.exceptions[personId];
+        } else {
+          item.exceptions[personId] = action;
+        }
+        
+        renderItems();
+        recompute();
+      });
+    });
+
+    container.querySelectorAll('[data-remove-exc]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const itemId = btn.dataset.item;
+        const personId = btn.dataset.removeExc;
+        const item = items.find(i => i.id === itemId);
+        if(item){
+          delete item.exceptions[personId];
+          renderItems();
+          recompute();
+        }
+      });
+    });
+  }
+
+  // ---------- CALCULATION ----------
+  function weightOf(p){
+    if(p.quota === 'zero') return 0;
+    if(p.quota === 'meta') return 0.5;
+    if(p.quota === 'fissa') return 0; // Peso 0 nei riparti dinamici
+    return 1; // piena
+  }
+
+  const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+
+  function arrotondaMezzoEuroSuperiore(importo){
+    const euroInteri = Math.floor(importo + 1e-9);
+    const centesimi = Math.round((importo - euroInteri) * 100);
+    let risultato;
+    if(centesimi <= 0) risultato = euroInteri;
+    else if(centesimi <= 50) risultato = euroInteri + 0.5;
+    else risultato = euroInteri + 1;
+    return round2(risultato);
+  }
+
+  function calcolaRipartizioneEquaERichiesta(personeReali){
+    const totaleReale = round2(personeReali.reduce((s,p)=> s + p.reale, 0));
+
+    // Calcolo del peso totale di tutto il gruppo
+    const pesoTotale = personeReali.reduce((s, p) => s + p.weight, 0);
+
+    // Ridistribuzione del totale reale proporzionalmente ai pesi
+    const conEquo = personeReali.map(p => ({
+      ...p,
+      equo: pesoTotale > 0 ? round2((totaleReale * p.weight) / pesoTotale) : round2(p.reale)
+    }));
+
+    // Il Livello 3 (Richiesto) applica l'arrotondamento al mezzo euro superiore
+    const conRichiesto = conEquo.map(p => ({
+      ...p,
+      richiesto: arrotondaMezzoEuroSuperiore(p.equo)
+    }));
+
+    const totaleEquo = round2(conEquo.reduce((s,p)=> s + p.equo, 0));
+    const totaleRichiesto = round2(conRichiesto.reduce((s,p)=> s + p.richiesto, 0));
+
+    return {
+      persone: conRichiesto,
+      totali: {
+        totaleReale,
+        totaleEquo,
+        totaleRichiesto,
+        surplus: round2(totaleRichiesto - totaleEquo)
+      }
+    };
+  }
+
+  function renderLivelli(billing, children, owed){
+    const personeReali = billing.map(p => {
+      const kids = children.filter(c => c.parentId === p.id);
+      const kidsWeight = kids.reduce((s,c)=> s + weightOf(c), 0);
+      const kidsReale = kids.reduce((s,c)=> s + (owed[c.id]||0), 0);
+      return {
+        id: p.id,
+        name: p.name,
+        weight: weightOf(p) + kidsWeight,
+        reale: (owed[p.id]||0) + kidsReale,
+        isFixed: isFixed(p),
+        fixedAmount: p.fixedAmount || 0
+      };
+    });
+
+    const container = document.getElementById('livelliList');
+    if(personeReali.length === 0 || personeReali.every(p => p.weight === 0 && !p.isFixed)){
+      container.innerHTML = '<p class="empty-note">Aggiungi partecipanti con una quota per vedere la ripartizione.</p>';
+      document.getElementById('totReale').textContent = fmt(0);
+      document.getElementById('totEquo').textContent = fmt(0);
+      document.getElementById('totRichiesto').textContent = fmt(0);
+      document.getElementById('totSurplus').textContent = fmt(0);
+      return;
+    }
+
+    const { persone, totali } = calcolaRipartizioneEquaERichiesta(personeReali);
+
+    container.innerHTML = persone.map(p => `
+      <div class="level-row">
+        <span class="lname">${escapeHtml(p.name)}${p.isFixed ? ' 🔒' : ''}</span>
+        <span class="level-vals">
+          <span class="lv"><span class="llabel">Reale</span><span class="lval">${fmt(p.reale)}</span></span>
+          <span class="lv"><span class="llabel">Equo</span><span class="lval">${fmt(p.equo)}</span></span>
+          <span class="lv richiesto"><span class="llabel">Richiesto</span><span class="lval">${fmt(p.richiesto)}</span></span>
+        </span>
+      </div>`).join('');
+
+    document.getElementById('totReale').textContent = fmt(totali.totaleReale);
+    document.getElementById('totEquo').textContent = fmt(totali.totaleEquo);
+    document.getElementById('totRichiesto').textContent = fmt(totali.totaleRichiesto);
+    document.getElementById('totSurplus').textContent = fmt(totali.surplus);
+  }
+
+  function recompute(){
+    // Spesa Totale Reale: la somma delle voci È il totale che il gruppo deve coprire per intero;
+    // la quota fissa di chi ce l'ha viene detratta da questo totale, non sommata sopra.
+    const grandTotal = items.reduce((s, it) => s + (it.amount || 0), 0);
+    document.getElementById('grandTotal').textContent = fmt(grandTotal);
+
+    const owed = {};
+    const breakdown = {};
+    const paidBy = {};
+    const unweightedDynamicOwed = {};
+    const dynamicBreakdownEntries = {};
+    people.forEach(p => {
+      owed[p.id] = isFixed(p) ? (p.fixedAmount || 0) : 0;
+      breakdown[p.id] = isFixed(p) ? [{label:'Quota fissa', amount: p.fixedAmount || 0}] : [];
+      paidBy[p.id] = 0;
+      unweightedDynamicOwed[p.id] = 0;
+      dynamicBreakdownEntries[p.id] = [];
+    });
+
+    let totalExtraFromFixed = 0;
+
+    items.forEach(it => {
+      if(it.payerId && paidBy[it.payerId] != null) paidBy[it.payerId] += (it.amount || 0);
+
+      // Partecipanti dinamici inclusi
+      const dynamicParticipants = people.filter(p => {
+        const status = getEffectiveStatus(it, p);
+        if(status === 'excluded') return false;
+        if(isFixed(p)) return false;
+        return weightOf(p) > 0;
+      });
+      
+      const dynamicWeight = dynamicParticipants.reduce((s,p)=> s + weightOf(p), 0);
+      
+      // Partecipanti a Quota Fissa esplicitamente INCLUSI in questa voce
+      const includedFixed = people.filter(p => isFixed(p) && getEffectiveStatus(it, p) === 'included');
+      
+      // Il peso totale per questa voce include 1 per ogni quota fissa inclusa
+      const totalWeightForItem = dynamicWeight + includedFixed.length;
+      
+      if(totalWeightForItem > 0 && (it.amount || 0) > 0){
+        const perUnit = (it.amount || 0) / totalWeightForItem;
+        
+        // Quota "teorica" (non ancora compensata) per i dinamici: viene corretta
+        // in fondo con il fattore di compensazione, per non contare due volte
+        // la parte già coperta dalle quote fisse.
+        dynamicParticipants.forEach(p => {
+          const share = perUnit * weightOf(p);
+          unweightedDynamicOwed[p.id] += share;
+          dynamicBreakdownEntries[p.id].push({label: it.desc || 'Voce', amount: share});
+        });
+
+        // Assegna subito la quota proporzionale ai fissi INCLUSI (si somma al loro fisso base,
+        // non è soggetta a compensazione: un fisso che partecipa a una voce paga per intero la sua parte)
+        includedFixed.forEach(p => {
+          owed[p.id] += perUnit;
+          totalExtraFromFixed += perUnit;
+          breakdown[p.id].push({label: (it.desc || 'Voce') + ' (extra)', amount: perUnit});
+        });
+      }
+    });
+
+    // Fattore di compensazione: quanto resta del totale reale da coprire dopo aver
+    // tolto le quote fisse base e gli extra dei fissi, ridistribuito in proporzione
+    // al consumo "teorico" di ciascun dinamico — così il totale finale torna sempre
+    // esatto al centesimo, senza doppi conteggi.
+    const totalFixedBase = people.filter(p => isFixed(p)).reduce((s,p)=> s + (p.fixedAmount || 0), 0);
+    const sumUnweightedDynamic = Object.values(unweightedDynamicOwed).reduce((a,b)=> a + b, 0);
+    const remainingToCoverByDynamic = grandTotal - totalFixedBase - totalExtraFromFixed;
+    const scaleFactor = sumUnweightedDynamic > 0 ? (remainingToCoverByDynamic / sumUnweightedDynamic) : 0;
+
+    people.forEach(p => {
+      if(!isFixed(p)){
+        owed[p.id] = unweightedDynamicOwed[p.id] * scaleFactor;
+        breakdown[p.id] = dynamicBreakdownEntries[p.id].map(b => ({ label: b.label, amount: b.amount * scaleFactor }));
+      }
+    });
+
+    const billing = people.filter(p => p.role !== 'figlio');
+    const children = people.filter(p => p.role === 'figlio');
+
+    lastComputation = { billing, children, owed, breakdown, paidBy, grandTotal };
+
+    renderResults(billing, children, owed, breakdown, paidBy);
+    renderSettlement(billing, children, owed, paidBy);
+    renderLivelli(billing, children, owed);
+  }
+
+  function renderResults(billing, children, owed, breakdown, paidBy){
+    const list = document.getElementById('resultsList');
+    if(billing.length === 0){
+      list.innerHTML = '<p class="empty-note">Aggiungi partecipanti e importi per vedere il calcolo.</p>';
+      return;
+    }
+    list.innerHTML = billing.map(p => {
+      const meta = roleMeta(p.role);
+      const own = owed[p.id] || 0;
+      const kids = children.filter(c => c.parentId === p.id);
+      const kidsTotal = kids.reduce((s,c)=> s + (owed[c.id]||0), 0);
+      const total = own + kidsTotal;
+      const advance = paidBy[p.id] || 0;
+      const balance = advance - total;
+      const kidsLines = kids.map(c => `<div class="child-line">+ ${escapeHtml(c.name)} (${quotaLabel(c.quota)}${c.quota==='fissa' ? ' ' + fmt(c.fixedAmount||0) : ''}): ${fmt(owed[c.id]||0)}</div>`).join('');
+      const bdLines = (breakdown[p.id]||[]).filter(b=>b.amount>0.001).map(b => `<div class="breakdown-line"><span>${escapeHtml(b.label)}</span><span>${fmt(b.amount)}</span></div>`).join('');
+      const balanceHtml = advance > 0 ? `
+        <div class="balance-line">
+          <span>Ha pagato: ${fmt(advance)}</span>
+          <span class="${balance >= 0 ? 'balance-pos' : 'balance-neg'}">${balance >= 0 ? 'credito ' + fmt(balance) : 'deve ' + fmt(-balance)}</span>
+        </div>` : '';
+      return `<div class="result-card">
+        <div class="result-top">
+          <span class="avatar ${meta.cls}">${initials(p.name)}</span>
+          <span class="result-name">${escapeHtml(p.name)}<br><span class="result-role">${meta.label} · ${quotaLabel(p.quota)}</span></span>
+          <span class="result-amount">${fmt(total)}</span>
+        </div>
+        ${kidsLines}
+        ${balanceHtml}
+        ${bdLines ? `<details class="detail"><summary>Dettaglio</summary>${bdLines}</details>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  // Calcola i passaggi di denaro minimi (debitore -> creditore) a partire dai saldi netti.
+  // Condivisa da renderSettlement() e dal testo di condivisione, così i due non possono disallinearsi.
+  function computeSettlement(billing, children, owed, paidBy){
+    const nets = billing.map(p => {
+      const kids = children.filter(c => c.parentId === p.id);
+      const kidsTotal = kids.reduce((s,c)=> s + (owed[c.id]||0), 0);
+      const total = (owed[p.id]||0) + kidsTotal;
+      return { id: p.id, name: p.name, net: (paidBy[p.id]||0) - total };
+    }).filter(n => Math.abs(n.net) > 0.01);
+
+    const creditors = nets.filter(n => n.net > 0).sort((a,b)=> b.net - a.net).map(n=>({...n}));
+    const debtors = nets.filter(n => n.net < 0).sort((a,b)=> a.net - b.net).map(n=>({...n, net: -n.net}));
+
+    const result = [];
+    let ci = 0, di = 0;
+    while(ci < creditors.length && di < debtors.length){
+      const c = creditors[ci], d = debtors[di];
+      const amt = Math.min(c.net, d.net);
+      if(amt > 0.01){
+        result.push({ debtorId: d.id, debtorName: d.name, creditorId: c.id, creditorName: c.name, amount: amt });
+      }
+      c.net -= amt; d.net -= amt;
+      if(c.net <= 0.01) ci++;
+      if(d.net <= 0.01) di++;
+    }
+    return result;
+  }
+
+  function renderSettlement(billing, children, owed, paidBy){
+    const el = document.getElementById('settleList');
+    const settlement = computeSettlement(billing, children, owed, paidBy);
+
+    if(settlement.length === 0){
+      const hasAnyPaidBy = Object.values(paidBy).some(v => v > 0);
+      el.innerHTML = hasAnyPaidBy
+        ? '<p class="empty-note">Il conto torna: nessun passaggio necessario.</p>'
+        : '<p class="empty-note">Indica chi ha pagato ogni voce per vedere chi deve dare a chi.</p>';
+      return;
+    }
+
+    const evName = document.getElementById('eventName').value.trim() || 'la spesa di gruppo';
+    el.innerHTML = settlement.map(s => {
+      const debtor = people.find(p => p.id === s.debtorId);
+      const waHtml = (debtor && debtor.phone)
+        ? `<a class="wa-link" href="${waLink(debtor.phone, `Ciao ${debtor.name}! Per "${evName}" mi devi dare ${fmt(s.amount)}. Grazie! 🙂`)}" target="_blank" rel="noopener">💬</a>`
+        : '';
+      return `<div class="settle-line"><span>${escapeHtml(s.debtorName)}</span><span class="arrow">→</span><span>${escapeHtml(s.creditorName)}</span><span class="amt">${fmt(s.amount)}</span>${waHtml}</div>`;
+    }).join('');
+  }
+
+  // ---------- HISTORY ----------
+  const HKEY = 'divide-spesa-storico-v2';
+
+  function loadHistory(){
+    try { const raw = localStorage.getItem(HKEY); return raw ? JSON.parse(raw) : []; }
+    catch(e){ return []; }
+  }
+  function saveHistory(list){
+    try { localStorage.setItem(HKEY, JSON.stringify(list)); } catch(e){}
+  }
+
+  function serializeState(){
+    return {
+      name: document.getElementById('eventName').value.trim() || 'Senza nome',
+      date: new Date().toISOString(),
+      people: people.map(p => ({...p})),
+      items: items.map(it => ({...it, exceptions: {...it.exceptions}}))
+    };
+  }
+
+  function applyState(state){
+    document.getElementById('eventName').value = state.name || '';
+    people = (state.people || []).map(p => ({...p}));
+    items = (state.items || []).map(it => ({...it, exceptions: it.exceptions || {}}));
+    let maxNum = 0;
+    [...people, ...items].forEach(x => {
+      const n = parseInt(String(x.id).slice(1), 10);
+      if(!isNaN(n) && n > maxNum) maxNum = n;
+    });
+    nextId = maxNum + 1;
+    renderPeople();
+    renderItems();
+    recompute();
+  }
+
+  document.getElementById('saveEventBtn').addEventListener('click', ()=>{
+    if(people.length === 0){ alert('Aggiungi almeno un partecipante prima di salvare.'); return; }
+    const list = loadHistory();
+    list.unshift(serializeState());
+    saveHistory(list.slice(0, 30));
+    renderHistory();
+  });
+
+  document.getElementById('newEventBtn').addEventListener('click', ()=>{
+    if(!confirm('Svuotare tutto e iniziare da capo?')) return;
+    people = [];
+    items = [];
+    seedItem();
+    document.getElementById('eventName').value = '';
+    renderPeople();
+    renderItems();
+    recompute();
+  });
+
+  function renderHistory(){
+    const list = loadHistory();
+    const el = document.getElementById('histList');
+    if(list.length === 0){
+      el.innerHTML = '<p class="empty-note">Ancora nessuna mangiata salvata.</p>';
+      return;
+    }
+    el.innerHTML = list.map((s, idx) => {
+      const d = new Date(s.date);
+      const dateStr = d.toLocaleDateString('it-IT', {day:'2-digit', month:'2-digit', year:'2-digit'});
+      const total = (s.items||[]).reduce((sum,it)=> sum + (it.amount||0), 0);
+      return `<div class="hist-row">
+        <span class="hname">${escapeHtml(s.name)}</span>
+        <span class="hmeta">${dateStr} · ${fmt(total)}</span>
+        <button class="icon-btn" data-load="${idx}" title="Carica" type="button">↻</button>
+        <button class="icon-btn" data-delhist="${idx}" title="Elimina" type="button">✕</button>
+      </div>`;
+    }).join('');
+    el.querySelectorAll('[data-load]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const list2 = loadHistory();
+        const state = list2[parseInt(btn.dataset.load,10)];
+        if(state){
+          applyState(state);
+          tabbar.querySelector('[data-tab="tab-persone"]').click();
+        }
+      });
+    });
+    el.querySelectorAll('[data-delhist]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const list2 = loadHistory();
+        list2.splice(parseInt(btn.dataset.delhist,10), 1);
+        saveHistory(list2);
+        renderHistory();
+      });
+    });
+  }
+
+  // ---------- CONDIVISIONE ----------
+  function waLink(phone, text){
+    let num = (phone || '').replace(/[^0-9+]/g, '');
+    if(num.startsWith('+')) num = num.slice(1);
+    else if(num.startsWith('00')) num = num.slice(2);
+    else if(!num.startsWith('39')) num = '39' + num.replace(/^0+/, '');
+    return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+  }
+
+  function buildShareText(){
+    if(!lastComputation) return '';
+    const { billing, children, owed, paidBy, grandTotal } = lastComputation;
+    const evName = document.getElementById('eventName').value.trim() || 'Spesa di gruppo';
+    const settlement = computeSettlement(billing, children, owed, paidBy);
+
+    let text = `🧾 *${evName}*\n`;
+    text += `Spesa totale: ${fmt(grandTotal)}\n\n`;
+    if(settlement.length === 0){
+      text += 'Il conto torna: nessun passaggio necessario. ✅';
+    } else {
+      text += '*Chi deve dare a chi:*\n';
+      settlement.forEach(s => { text += `• ${s.debtorName} → ${s.creditorName}: ${fmt(s.amount)}\n`; });
+    }
+    text += '\n_Calcolato con Divide la Spesa_';
+    return text;
+  }
+
+  let toastTimer = null;
+  function showToast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> el.classList.remove('show'), 2600);
+  }
+
+  function openModal(id){ document.getElementById(id).classList.add('show'); }
+  function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+  function openShareModal(text){
+    document.getElementById('shareTextArea').value = text;
+    openModal('shareModal');
+    setTimeout(()=>{
+      const ta = document.getElementById('shareTextArea');
+      ta.focus(); ta.select();
+    }, 60);
+  }
+
+  document.getElementById('shareModalClose').addEventListener('click', ()=> closeModal('shareModal'));
+  document.getElementById('shareModal').addEventListener('click', (e)=>{
+    if(e.target.id === 'shareModal') closeModal('shareModal');
+  });
+
+  document.getElementById('shareCopyBtn').addEventListener('click', async ()=>{
+    const ta = document.getElementById('shareTextArea');
+    ta.focus(); ta.select();
+    let copied = false;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      try { await navigator.clipboard.writeText(ta.value); copied = true; } catch(e){}
+    }
+    if(!copied){
+      try { copied = document.execCommand('copy'); } catch(e){}
+    }
+    showToast(copied ? 'Copiato negli appunti ✓' : 'Testo selezionato: copialo con il tasto Copia della tastiera');
+  });
+
+  document.getElementById('shareBtn').addEventListener('click', async ()=>{
+    const text = buildShareText();
+    if(!text){ showToast('Aggiungi prima persone e voci di spesa'); return; }
+
+    // 1) condivisione nativa del dispositivo, se disponibile e permessa
+    if(navigator.share){
+      try { await navigator.share({ title: 'Divide la Spesa', text }); return; }
+      catch(e){ if(e && e.name === 'AbortError') return; /* utente ha annullato: nessun fallback */ }
+    }
+    // 2) copia diretta negli appunti, se il browser/ambiente lo permette
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      try { await navigator.clipboard.writeText(text); showToast('Copiato negli appunti ✓'); return; }
+      catch(e){ /* permesso negato: passa al fallback visibile */ }
+    }
+    // 3) fallback che funziona sempre: mostra il testo pronto da copiare a mano
+    openShareModal(text);
+  });
+
+  document.getElementById('infoBtn').addEventListener('click', ()=> openModal('infoModal'));
+  document.getElementById('infoModalClose').addEventListener('click', ()=> closeModal('infoModal'));
+  document.getElementById('infoModal').addEventListener('click', (e)=>{
+    if(e.target.id === 'infoModal') closeModal('infoModal');
+  });
+
+  function triggerPrint(){ window.print(); }
+  document.getElementById('printBtn').addEventListener('click', triggerPrint);
+  document.getElementById('printBtn2').addEventListener('click', triggerPrint);
+
+  // ---------- BACKUP / EXPORT ----------
+  function downloadBlob(content, filename, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=> URL.revokeObjectURL(url), 2000);
+  }
+
+  document.getElementById('exportJsonBtn').addEventListener('click', ()=>{
+    const data = { version: 1, exportedAt: new Date().toISOString(), current: serializeState(), storico: loadHistory() };
+    downloadBlob(JSON.stringify(data, null, 2), 'divide-spesa-backup.json', 'application/json');
+    showToast('JSON esportato ✓');
+  });
+
+  document.getElementById('importJsonInput').addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if(data.current) applyState(data.current);
+        if(Array.isArray(data.storico)){ saveHistory(data.storico); renderHistory(); }
+        showToast('Importato ✓');
+        tabbar.querySelector('[data-tab="tab-persone"]').click();
+      } catch(err){ showToast('File non valido'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  function csvEscape(v){
+    const s = String(v == null ? '' : v);
+    return /[",\n;]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+  }
+
+  document.getElementById('exportCsvBtn').addEventListener('click', ()=>{
+    if(!lastComputation){ showToast('Aggiungi prima persone e voci di spesa'); return; }
+    const { billing, children, owed, grandTotal } = lastComputation;
+    const rows = [];
+
+    rows.push(['Voce','Descrizione','Importo','Pagata da','Eccezioni'].map(csvEscape).join(';'));
+    items.forEach((it, idx) => {
+      const payer = people.find(p => p.id === it.payerId);
+      const exc = Object.entries(it.exceptions || {}).map(([pid, a]) => {
+        const per = people.find(p => p.id === pid);
+        return per ? `${per.name}:${a === 'included' ? 'inclusa' : 'esclusa'}` : '';
+      }).filter(Boolean).join(', ');
+      rows.push([`Voce ${idx+1}`, it.desc || '', fmt(it.amount || 0), payer ? payer.name : '—', exc].map(csvEscape).join(';'));
+    });
+
+    rows.push('');
+    rows.push(['Persona','Ruolo','Reale','Equo','Richiesto'].map(csvEscape).join(';'));
+    const personeReali = billing.map(p => {
+      const kids = children.filter(c => c.parentId === p.id);
+      const kidsWeight = kids.reduce((s,c)=> s + weightOf(c), 0);
+      const kidsReale = kids.reduce((s,c)=> s + (owed[c.id]||0), 0);
+      return { id: p.id, name: p.name, weight: weightOf(p) + kidsWeight, reale: (owed[p.id]||0) + kidsReale };
+    });
+    if(personeReali.length > 0){
+      const { persone } = calcolaRipartizioneEquaERichiesta(personeReali);
+      persone.forEach(p => {
+        const person = people.find(pp => pp.id === p.id);
+        rows.push([person ? person.name : '', person ? roleMeta(person.role).label : '', fmt(p.reale), fmt(p.equo), fmt(p.richiesto)].map(csvEscape).join(';'));
+      });
+    }
+
+    rows.push('');
+    rows.push(['Totale spesa', fmt(grandTotal)].map(csvEscape).join(';'));
+
+    const csv = '\uFEFF' + rows.join('\r\n'); // BOM per far leggere gli accenti a Excel
+    downloadBlob(csv, 'divide-spesa.csv', 'text/csv;charset=utf-8');
+    showToast('CSV esportato ✓');
+  });
+
+  // ---------- PWA: registrazione service worker (per l'uso offline) ----------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('./sw.js').catch(()=>{
+        // sw.js non trovato accanto a index.html: l'app resta comunque
+        // pienamente funzionante online, solo senza cache offline.
+      });
+    });
+  }
+
+  // ---------- INIT ----------
+  updateFormFields();
+  renderPeople();
+  renderItems();
+  recompute();
+  renderHistory();
+  renderNameSuggestions();
+
+})();
+</script>
+</body>
+</html>
