@@ -27,54 +27,74 @@
 <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F3F4F2;
+  --bg: #F2F3F5;
   --bg-panel: #FFFFFF;
-  --bg-sunk: #F7F8F6;
-  --ink: #1B211E;
-  --ink-soft: #6E7770;
-  --ink-faint: #9AA29B;
-  --line: #E3E5E0;
-  --teal: #2563EB;
-  --teal-soft: #DCE8FE;
-  --indigo: #D6006E;
-  --indigo-soft: #FBD9E9;
-  --amber: #E88A00;
-  --amber-soft: #FCE6C2;
-  --credit: #16A34A;
-  --debit: #DC2626;
-  --debit-soft: #FBDADA;
+  --bg-sunk: #F6F7F9;
+  --ink: #1D2126;
+  --ink-soft: #656B75;
+  --ink-faint: #9AA0AA;
+  --line: #E2E4E8;
+  --teal: #2D6CDF;
+  --teal-soft: #DEE9FC;
+  --indigo: #8E44AD;
+  --indigo-soft: #EFE1F5;
+  --amber: #E0900A;
+  --amber-soft: #FBEAC9;
+  --credit: #1E8E5A;
+  --debit: #C4392B;
+  --debit-soft: #F7E1DE;
   --radius-s: 8px;
   --radius-m: 12px;
   --shadow: 0 1px 2px rgba(20,24,22,0.05), 0 2px 8px rgba(20,24,22,0.04);
-  font-size: 15px;
+  /* colore d'accento per ciascuna scheda (Persone/Voci/Conto/Storico) */
+  --page-persone: #2D6CDF; --page-persone-soft: #DEE9FC;
+  --page-voci: #C4661B; --page-voci-soft: #FAE3CE;
+  --page-conto: #1E8E5A; --page-conto-soft: #DCF1E6;
+  --page-storico: #7B4FA0; --page-storico-soft: #EEE3F5;
+  font-size: 14px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #141815; --bg-panel: #1C211E; --bg-sunk: #20241F;
-    --ink: #ECEEEA; --ink-soft: #9BA39B; --ink-faint: #6C756D; --line: #333A34;
-    --teal: #5B9BFF; --teal-soft: #172A4A;
-    --indigo: #FF5FA8; --indigo-soft: #46203A;
-    --amber: #FFB238; --amber-soft: #40300F;
-    --credit: #4ADE80; --debit: #FF6B6B; --debit-soft: #402323;
+    --bg: #16181C; --bg-panel: #1E2126; --bg-sunk: #22252B;
+    --ink: #EAEBED; --ink-soft: #9BA0A8; --ink-faint: #676C74; --line: #30343B;
+    --teal: #6FA0F2; --teal-soft: #21304A;
+    --indigo: #C186DB; --indigo-soft: #372641;
+    --amber: #F2AE40; --amber-soft: #3D2E15;
+    --credit: #4CAF7D; --debit: #E07A68; --debit-soft: #3A2521;
+    --page-persone: #6FA0F2; --page-persone-soft: #21304A;
+    --page-voci: #E0954F; --page-voci-soft: #3B2A18;
+    --page-conto: #4CAF7D; --page-conto-soft: #1E3327;
+    --page-storico: #B98CDA; --page-storico-soft: #322640;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.28);
   }
 }
 :root[data-theme="dark"] {
-  --bg: #141815; --bg-panel: #1C211E; --bg-sunk: #20241F;
-  --ink: #ECEEEA; --ink-soft: #9BA39B; --ink-faint: #6C756D; --line: #333A34;
-  --teal: #5B9BFF; --teal-soft: #172A4A;
-  --indigo: #FF5FA8; --indigo-soft: #46203A;
-  --amber: #FFB238; --amber-soft: #40300F;
-  --credit: #4ADE80; --debit: #FF6B6B; --debit-soft: #402323;
+  --bg: #16181C; --bg-panel: #1E2126; --bg-sunk: #22252B;
+  --ink: #EAEBED; --ink-soft: #9BA0A8; --ink-faint: #676C74; --line: #30343B;
+  --teal: #6FA0F2; --teal-soft: #21304A;
+  --indigo: #C186DB; --indigo-soft: #372641;
+  --amber: #F2AE40; --amber-soft: #3D2E15;
+  --credit: #4CAF7D; --debit: #E07A68; --debit-soft: #3A2521;
+  --page-persone: #6FA0F2; --page-persone-soft: #21304A;
+  --page-voci: #E0954F; --page-voci-soft: #3B2A18;
+  --page-conto: #4CAF7D; --page-conto-soft: #1E3327;
+  --page-storico: #B98CDA; --page-storico-soft: #322640;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.28);
 }
+
+/* Ogni scheda "riscrive" localmente --teal: bottoni, importi in evidenza e focus
+   di quella pagina prendono automaticamente il colore della pagina stessa. */
+#tab-persone { --teal: var(--page-persone); --teal-soft: var(--page-persone-soft); }
+#tab-voci    { --teal: var(--page-voci);    --teal-soft: var(--page-voci-soft); }
+#tab-conto   { --teal: var(--page-conto);   --teal-soft: var(--page-conto-soft); }
+#tab-storico { --teal: var(--page-storico); --teal-soft: var(--page-storico-soft); }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
   background: var(--bg); color: var(--ink);
   font-family: 'Work Sans', system-ui, -apple-system, sans-serif;
-  line-height: 1.45; padding-bottom: calc(66px + env(safe-area-inset-bottom));
+  line-height: 1.4; padding-bottom: calc(58px + env(safe-area-inset-bottom));
   font-variant-numeric: tabular-nums;
 }
 .wrap { max-width: 520px; margin: 0 auto; padding: 0 14px; }
@@ -92,12 +112,12 @@ header.appbar .evt-input { flex: 1; min-width: 0; border: none; background: tran
   font-size: 0.82rem; font-family: inherit; padding: 3px 0; border-bottom: 1px dashed var(--line); }
 header.appbar .evt-input:focus { outline: none; color: var(--ink); border-color: var(--teal); }
 
-main { padding-top: 9px; }
+main { padding-top: 7px; }
 .tabpanel { display: none; }
 .tabpanel.active { display: block; }
 
 .card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-m);
-  padding: 11px; margin-bottom: 9px; box-shadow: var(--shadow); }
+  padding: 8px; margin-bottom: 6px; box-shadow: var(--shadow); }
 .section-head { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
 .section-head .si { font-size: 1rem; line-height: 1; }
 .section-head h2 { font-size: 0.92rem; font-weight: 700; margin: 0; }
@@ -115,9 +135,9 @@ select {
   background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 28px;
 }
 input:focus, select:focus, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
-.field { margin-bottom: 7px; }
+.field { margin-bottom: 6px; }
 .field:last-child { margin-bottom: 0; }
-.row { display: flex; gap: 8px; }
+.row { display: flex; gap: 6px; }
 .row > .field { flex: 1; min-width: 0; }
 
 button { font-family: inherit; cursor: pointer; border: none; border-radius: var(--radius-s);
@@ -165,6 +185,9 @@ button.icon-btn:hover { color: var(--debit); }
 .item-card .item-title-row .idx { font-size: 0.68rem; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.03em; }
 .item-edit-actions { margin-top: 8px; }
 .item-card .row { gap: 6px; }
+.desc-icon-row { display: flex; align-items: center; gap: 6px; }
+.desc-icon-row .desc-icon { font-size: 1.15rem; flex-shrink: 0; line-height: 1; }
+.desc-icon-row input { flex: 1; min-width: 0; }
 .item-card .row .field.payer-field { flex: 1.3; min-width: 0; }
 .item-card .row .field.desc-field { flex: 1.3; min-width: 0; }
 .item-card .row .field.amount-field { flex: 0 0 58px; max-width: 58px; }
@@ -191,7 +214,7 @@ button.icon-btn:hover { color: var(--debit); }
 .chip-included { background: var(--teal-soft); color: var(--teal); }
 .chip button { background: none; border: none; color: inherit; padding: 0; font-size: 0.9rem; line-height: 1; }
 
-.total-check { display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; margin-top: 2px; border-top: 1px dashed var(--line); font-size: 0.85rem; }
+.total-check { display: flex; justify-content: space-between; align-items: baseline; padding-top: 7px; margin-top: 1px; border-top: 1px dashed var(--line); font-size: 0.82rem; }
 .total-check .amt { font-weight: 800; font-size: 1.15rem; color: var(--teal); }
 
 .result-card { border: 1px solid var(--line); border-radius: var(--radius-s); padding: 8px 10px; margin-bottom: 6px; background: var(--bg-sunk); }
@@ -219,8 +242,12 @@ details.detail .breakdown-line { font-size: 0.76rem; display: flex; justify-cont
 .level-vals .lv .llabel { display: block; font-size: 0.6rem; color: var(--ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
 .level-vals .lv .lval { font-size: 0.8rem; font-weight: 700; }
 .level-vals .lv.richiesto .lval { color: var(--teal); }
+.delta-badge { display: block; font-size: 0.6rem; font-weight: 700; margin-top: 1px; white-space: nowrap; }
+.delta-badge.delta-fav { color: var(--credit); }
+.delta-badge.delta-pen { color: var(--debit); }
+.delta-legend { font-size: 0.66rem; color: var(--ink-faint); margin: 4px 0 0; }
 .empty-note { color: var(--ink-faint); font-size: 0.82rem; font-style: italic; }
-.subhead { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); margin: 10px 0 6px; }
+.subhead { font-size: 0.75rem; font-weight: 700; color: var(--ink-soft); margin: 7px 0 4px; }
 .subhead:first-child { margin-top: 0; }
 
 .hist-row { display: flex; align-items: center; gap: 8px; padding: 6px 9px; border: 1px solid var(--line); border-radius: var(--radius-s); margin-bottom: 5px; background: var(--bg-sunk); }
@@ -228,10 +255,10 @@ details.detail .breakdown-line { font-size: 0.76rem; display: flex; justify-cont
 .hist-row .hmeta { font-size: 0.68rem; color: var(--ink-faint); flex-shrink: 0; }
 
 nav.tabbar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--bg-panel);
-  border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); z-index: 10; }
-nav.tabbar button { flex: 1; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: 6px 2px; border-radius: var(--radius-s); color: var(--ink-faint); font-size: 0.64rem; font-weight: 600; }
-nav.tabbar button .ic { font-size: 1.15rem; }
+  border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom)); z-index: 10; }
+nav.tabbar button { flex: 1; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 4px 2px; border-radius: var(--radius-s); color: var(--ink-faint); font-size: 0.62rem; font-weight: 600; }
+nav.tabbar button .ic { font-size: 1.05rem; }
 nav.tabbar button.active { color: var(--teal); }
 /* ==================== CONDIVISIONE / EXPORT / STAMPA ==================== */
 .share-btn { background: #25D366; color: #fff; }
@@ -269,10 +296,10 @@ nav.tabbar button.active { color: var(--teal); }
   width: 100%; min-height: 170px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-s);
   background: var(--bg-sunk); color: var(--ink); font-family: inherit; font-size: 0.84rem; resize: vertical;
 }
-.guide-block { margin-bottom: 14px; }
+.guide-block { margin-bottom: 10px; }
 .guide-block:last-child { margin-bottom: 0; }
 .guide-block h3 { font-size: 0.86rem; font-weight: 800; margin: 0 0 8px 0; color: var(--teal); }
-.guide-item { display: flex; gap: 10px; padding: 6px 0; font-size: 0.83rem; align-items: flex-start; }
+.guide-item { display: flex; gap: 8px; padding: 4px 0; font-size: 0.8rem; align-items: flex-start; }
 .guide-item .gi-ic { flex-shrink: 0; width: 22px; text-align: center; }
 .guide-item .gi-txt b { display: block; color: var(--ink); }
 .guide-item .gi-txt span { color: var(--ink-soft); }
@@ -389,6 +416,7 @@ nav.tabbar button.active { color: var(--teal); }
 
     <div class="card">
       <div class="section-head"><span class="si">📋</span><h2>Elenco</h2></div>
+      <p class="section-hint">L'anello colorato sull'avatar collega ogni figlio/a al proprio genitore.</p>
       <div class="plist" id="plist"></div>
     </div>
   </section>
@@ -491,39 +519,56 @@ nav.tabbar button.active { color: var(--teal); }
 <div class="modal-overlay" id="infoModal">
   <div class="modal-box">
     <div class="modal-head">
-      <span class="modal-title">ℹ️ Guida rapida</span>
+      <span class="modal-title">ℹ️ Guida completa</span>
       <button class="icon-btn" id="infoModalClose" type="button">✕</button>
     </div>
 
     <div class="guide-block">
       <h3>👥 Persone</h3>
-      <div class="guide-item"><span class="gi-ic">🧭</span><span class="gi-txt"><b>Ruolo</b><span>Partecipante paga quota piena, Organizzatore di norma non paga, Figlio/a è collegato a un adulto (paga metà, zero o quota intera).</span></span></div>
-      <div class="guide-item"><span class="gi-ic">📱</span><span class="gi-txt"><b>Telefono</b><span>Facoltativo: se lo inserisci, nella scheda Conto compare un link WhatsApp diretto per sollecitare quella persona.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Rimuovi</b><span>Elimina la persona dall'elenco.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">👤</span><span class="gi-txt"><b>Partecipante</b><span>Paga la quota piena (o quella scelta nel campo Quota), calcolata sulle voci a cui partecipa.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🧭</span><span class="gi-txt"><b>Organizzatore</b><span>Di norma non versa una quota propria (è pensato per chi ha anticipato i soldi ma non "consuma" — puoi comunque impostargli una Quota se partecipa anche lui/lei alla spesa).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🧒</span><span class="gi-txt"><b>Figlio/a</b><span>Va collegato a un adulto già in elenco ("Collegato a"). Il suo importo si somma automaticamente al totale dell'adulto: non compare come debitore/creditore a sé, ma dentro il "Dettaglio" dell'adulto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⚖️</span><span class="gi-txt"><b>Quota: Intera / Mezza / Non paga</b><span>Determina il peso con cui quella persona partecipa alla divisione delle voci: 1, 0,5 oppure 0.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🔒</span><span class="gi-txt"><b>Quota fissa</b><span>Un importo deciso da te, indipendente dalle voci. Nella scheda Voci puoi comunque includerla in una voce specifica come "extra": in quel caso quell'importo si somma alla sua quota fissa base.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">📱</span><span class="gi-txt"><b>Telefono</b><span>Facoltativo. Se lo inserisci, nella scheda Conto compare un link WhatsApp diretto per sollecitare quella persona con un messaggio già scritto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✏️</span><span class="gi-txt"><b>Modifica persona</b><span>Precompila il form con i suoi dati; il pulsante diventa "Salva modifiche" e compare "Annulla". Salvando, la persona viene aggiornata (non duplicata): restano collegati figli, pagamenti ed eccezioni già impostati.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Rimuovi</b><span>Elimina la persona. Eventuali figli collegati restano ma perdono il collegamento (vanno ricollegati a qualcun altro).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⌨️</span><span class="gi-txt"><b>Suggerimenti nome</b><span>L'app ricorda i nomi già usati (sul tuo dispositivo) e li propone mentre digiti, dal più frequente. Puoi comunque scrivere un nome nuovo in ogni momento.</span></span></div>
     </div>
 
     <div class="guide-block">
-      <h3>🧾 Voci</h3>
-      <div class="guide-item"><span class="gi-ic">＋</span><span class="gi-txt"><b>Aggiungi voce</b><span>Crea una nuova voce di spesa e comprime le precedenti in una striscia riassuntiva.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">✏️</span><span class="gi-txt"><b>Modifica</b><span>Riapre una voce compressa per modificarla.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Elimina voce</b><span>Rimuove quella voce di spesa.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">⚙️</span><span class="gi-txt"><b>Eccezioni</b><span>Includi o escludi una persona specifica da quella voce (es. chi non partecipa a una spesa).</span></span></div>
+      <h3>🧾 Voci di spesa</h3>
+      <div class="guide-item"><span class="gi-ic">🧾</span><span class="gi-txt"><b>Cos'è una voce</b><span>Un singolo pagamento fatto durante l'evento: descrizione, importo, chi lo ha pagato. Di solito ne basta una ("Spesa totale"), ma puoi aggiungerne altre per spese fatte da persone diverse o con partecipanti diversi.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🥩✈️🏨</span><span class="gi-txt"><b>Icona automatica</b><span>Scrivendo la descrizione (es. "carne", "volo", "hotel", "benzina", "pizza"...) l'app riconosce alcune parole chiave e mostra un'icona pertinente, sia mentre scrivi sia nella voce compressa.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">＋</span><span class="gi-txt"><b>Aggiungi voce</b><span>Crea una nuova voce e comprime automaticamente quelle già inserite in una striscia riassuntiva (chi ha pagato · descrizione · importo), per occupare meno spazio.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✏️</span><span class="gi-txt"><b>Modifica voce</b><span>Riapre una voce compressa. Mentre è aperta puoi cambiare ogni campo liberamente: i calcoli si aggiornano subito.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">💾 / ✕</span><span class="gi-txt"><b>Salva / Annulla</b><span>"Salva" conferma le modifiche e ricomprime la voce. "Annulla" riporta la voce esattamente com'era prima di aprirla, scartando ciò che hai scritto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⚙️</span><span class="gi-txt"><b>Eccezioni</b><span>Per ogni voce puoi includere o escludere una persona specifica: es. "Carne" con Anna esclusa (non la mangia), oppure una persona a quota fissa inclusa come extra in "Vino".</span></span></div>
+      <div class="guide-item"><span class="gi-ic">✕</span><span class="gi-txt"><b>Elimina voce</b><span>Rimuove quella voce e il suo importo dal totale.</span></span></div>
     </div>
 
     <div class="guide-block">
       <h3>📊 Conto</h3>
-      <div class="guide-item"><span class="gi-ic">📤</span><span class="gi-txt"><b>Condividi Conto</b><span>Invia il riepilogo (totale e saldi) via WhatsApp o altre app, oppure lo copia per incollarlo a mano.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">🖨️</span><span class="gi-txt"><b>Stampa / PDF</b><span>Apre la stampa del browser per salvare o stampare una ricevuta pulita del conto.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">💬</span><span class="gi-txt"><b>WhatsApp diretto</b><span>Accanto a un saldo, apre una chat WhatsApp già pronta con quella persona (solo se ha un telefono salvato).</span></span></div>
-      <div class="guide-item"><span class="gi-ic">⚖️</span><span class="gi-txt"><b>Reale / Equo / Richiesto</b><span>Reale è la quota esatta calcolata; Equo la ridistribuisce per peso familiare; Richiesto la arrotonda per eccesso al mezzo euro.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">📤</span><span class="gi-txt"><b>Condividi Conto</b><span>Prova prima la condivisione nativa del telefono (WhatsApp, Messaggi...); se non è disponibile copia automaticamente il testo; come ultima risorsa apre un riquadro col testo pronto da copiare a mano.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🖨️</span><span class="gi-txt"><b>Stampa / PDF</b><span>Apre la stampa del browser mostrando solo il Conto, senza menu né sfondo scuro: utile per salvarlo come PDF o stamparlo come ricevuta.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">💬</span><span class="gi-txt"><b>WhatsApp diretto</b><span>Accanto a un saldo "chi deve dare a chi", apre una chat WhatsApp già pronta con un messaggio di sollecito (solo se quella persona ha un telefono salvato).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🥇</span><span class="gi-txt"><b>Reale</b><span>La quota esatta calcolata voce per voce, tenendo conto di ruoli, pesi, eccezioni e quote fisse. È il livello "di verità" su cui si basa tutto il resto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⚖️</span><span class="gi-txt"><b>Equo</b><span>Ridistribuisce lo stesso totale in proporzione al solo peso familiare di ciascuno (adulto=1, mezza quota=0,5...), ignorando quali voci specifiche ha condiviso. Serve a "livellare" eventuali differenze dovute a come sono state divise le singole voci.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">▼▲</span><span class="gi-txt"><b>Badge verde/rosso</b><span>Sotto "Equo" vedi quanto quella persona guadagna (▼ verde, paga meno del Reale: è stata "favorita") o cede (▲ rosso, paga più del Reale: sta coprendo parte degli altri) rispetto alla sua spesa reale.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🔵</span><span class="gi-txt"><b>Richiesto</b><span>L'Equo arrotondato per eccesso al mezzo euro (0,01–0,50 → X,50; 0,51–0,99 → X+1,00), così puoi chiedere cifre comode in contanti. Il surplus generato dagli arrotondamenti è mostrato in fondo.</span></span></div>
     </div>
 
     <div class="guide-block">
-      <h3>🕓 Storico</h3>
-      <div class="guide-item"><span class="gi-ic">💾</span><span class="gi-txt"><b>Salva</b><span>Salva l'evento attuale nello storico del dispositivo.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">🗑️</span><span class="gi-txt"><b>Nuova</b><span>Svuota tutto per iniziare un evento nuovo.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">⬇️⬆️</span><span class="gi-txt"><b>Esporta / Importa JSON</b><span>Backup completo da salvare o trasferire su un altro telefono.</span></span></div>
-      <div class="guide-item"><span class="gi-ic">📊</span><span class="gi-txt"><b>Esporta CSV</b><span>Scarica un file apribile in Excel/Fogli con voci e saldi finali.</span></span></div>
+      <h3>🕓 Storico e backup</h3>
+      <div class="guide-item"><span class="gi-ic">💾</span><span class="gi-txt"><b>Salva</b><span>Salva l'evento attuale nello storico del dispositivo (rimane anche chiudendo il browser).</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🗑️</span><span class="gi-txt"><b>Nuova</b><span>Svuota tutto per iniziare un evento nuovo da zero.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">⬇️⬆️</span><span class="gi-txt"><b>Esporta / Importa JSON</b><span>Backup completo (persone, voci, storico) in un file. Utile per passare tutto da un telefono all'altro: esporti su uno, importi sull'altro.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">📊</span><span class="gi-txt"><b>Esporta CSV</b><span>Scarica un file apribile in Excel/Fogli con il dettaglio di ogni voce (chi ha pagato, eccezioni) e la tabella finale Reale/Equo/Richiesto.</span></span></div>
+    </div>
+
+    <div class="guide-block">
+      <h3>💡 Suggerimento</h3>
+      <div class="guide-item"><span class="gi-ic">🧾</span><span class="gi-txt"><b>Un evento tipico</b><span>1) Aggiungi le persone in "Persone" (ruoli e quote). 2) In "Voci" inserisci ciò che è stato speso, chi ha pagato ed eventuali eccezioni. 3) In "Conto" leggi chi deve dare cosa a chi e condividilo. 4) Salva l'evento in "Storico" per ritrovarlo la prossima volta.</span></span></div>
     </div>
   </div>
 </div>
@@ -534,6 +579,16 @@ nav.tabbar button.active { color: var(--teal); }
 
   // ---------- TABS ----------
   const tabbar = document.getElementById('tabbar');
+  const PAGE_THEME = {
+    'tab-persone': 'persone', 'tab-voci': 'voci', 'tab-conto': 'conto', 'tab-storico': 'storico'
+  };
+  function applyPageTheme(tabId){
+    const key = PAGE_THEME[tabId];
+    if(!key) return;
+    const root = document.documentElement.style;
+    root.setProperty('--teal', `var(--page-${key})`);
+    root.setProperty('--teal-soft', `var(--page-${key}-soft)`);
+  }
   tabbar.addEventListener('click', (e)=>{
     const btn = e.target.closest('button[data-tab]');
     if(!btn) return;
@@ -541,8 +596,10 @@ nav.tabbar button.active { color: var(--teal); }
     document.getElementById(btn.dataset.tab).classList.add('active');
     [...tabbar.children].forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    applyPageTheme(btn.dataset.tab);
     window.scrollTo({top:0, behavior:'instant'});
   });
+  applyPageTheme('tab-persone');
 
   // ---------- STATE ----------
   // person: {id, name, role: 'normale'|'host'|'figlio', parentId, quota: 'piena'|'meta'|'zero'|'fissa', fixedAmount}
@@ -577,6 +634,42 @@ nav.tabbar button.active { color: var(--teal); }
     return s.toUpperCase() || '?';
   }
 
+  // Indovina un'icona in base a cosa scrivi nella descrizione della voce (es. "carne" -> 🥩)
+  const ITEM_ICON_RULES = [
+    [/carne|manzo|pollo|maiale|salsicc|bistecc|agnello|kebab/, '🥩'],
+    [/pesc|sushi|frutti di mare|sashimi/, '🐟'],
+    [/pizza/, '🍕'],
+    [/vino|cantina/, '🍷'],
+    [/birra|birreria/, '🍺'],
+    [/bevand|bibit|drink|cocktail|analcolic|acqua/, '🥤'],
+    [/caff[eè]|bar\b/, '☕'],
+    [/gelat/, '🍦'],
+    [/dolc|dessert|torta|pasticc/, '🍰'],
+    [/pane|panino|focacc/, '🍞'],
+    [/frutta|verdur|ortaggi/, '🥦'],
+    [/volo|aereo|biglietto aereo|check ?in/, '✈️'],
+    [/benzin|carburante|diesel|gasolio|autostrada|pedaggio/, '⛽'],
+    [/hotel|albergo|pernott|b&b|bnb|airbnb/, '🏨'],
+    [/treno|stazione/, '🚆'],
+    [/taxi|uber|ncc/, '🚕'],
+    [/autobus|bus\b|pullman|navetta/, '🚌'],
+    [/traghetto|nave|barca|crocier/, '⛴️'],
+    [/noleggio|rent a car/, '🚗'],
+    [/sci\b|skipass|impianti|snowboard/, '⛷️'],
+    [/parcheggio|park\b/, '🅿️'],
+    [/museo|ingress|mostra|monumento/, '🎟️'],
+    [/regal|souvenir/, '🎁'],
+    [/spesa|supermercat|market/, '🛒'],
+    [/farmacia|medicin/, '💊'],
+    [/campeggio|tenda/, '⛺'],
+    [/cena|pranzo|ristorant|trattoria|osteria|men[uù]|aperitivo/, '🍽️'],
+  ];
+  function guessItemIcon(desc){
+    const d = (desc || '').toLowerCase();
+    for(const [re, icon] of ITEM_ICON_RULES){ if(re.test(d)) return icon; }
+    return '🧾';
+  }
+
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
@@ -591,6 +684,27 @@ nav.tabbar button.active { color: var(--teal); }
 
   function quotaLabel(q){
     return {piena:'quota intera', meta:'metà quota', zero:'non paga', fissa:'quota fissa'}[q] || '';
+  }
+
+  // Assegna un colore per famiglia: ogni adulto con almeno un figlio collegato riceve un colore,
+  // che si "eredita" come anello sull'avatar dei suoi figli, per riconoscerli a colpo d'occhio.
+  const FAMILY_COLORS = ['#E63946','#2A9D8F','#8E44AD','#457B9D','#D62872','#588157','#B5651D','#3D5A80'];
+  function assignFamilyColors(){
+    const parentsWithKids = [];
+    people.forEach(p => {
+      if(p.role === 'figlio' && p.parentId && !parentsWithKids.includes(p.parentId)){
+        parentsWithKids.push(p.parentId);
+      }
+    });
+    const map = {};
+    parentsWithKids.forEach((pid, i) => { map[pid] = FAMILY_COLORS[i % FAMILY_COLORS.length]; });
+    return map; // id del genitore -> colore
+  }
+  function familyRingStyle(person, familyColors){
+    let color = null;
+    if(person.role === 'figlio' && person.parentId) color = familyColors[person.parentId];
+    else if(familyColors[person.id]) color = familyColors[person.id];
+    return color ? ` style="box-shadow: 0 0 0 2px ${color};"` : '';
   }
 
   // ---------- ROLE SELECT ----------
@@ -770,6 +884,7 @@ nav.tabbar button.active { color: var(--teal); }
       refreshParentOptions();
       return;
     }
+    const familyColors = assignFamilyColors();
     list.innerHTML = people.map(p => {
       const meta = roleMeta(p.role);
       let tag = meta.label;
@@ -783,7 +898,7 @@ nav.tabbar button.active { color: var(--teal); }
       }
       if(p.phone) tag += ' · 📱';
       return `<div class="prow">
-        <span class="avatar ${meta.cls}">${initials(p.name)}</span>
+        <span class="avatar ${meta.cls}"${familyRingStyle(p, familyColors)}>${initials(p.name)}</span>
         <span class="pmeta"><span class="pname">${escapeHtml(p.name)}</span><span class="ptag">${tag}</span></span>
         <button class="icon-btn" data-edit-person="${p.id}" title="Modifica" type="button">✏️</button>
         <button class="icon-btn" data-remove="${p.id}" title="Rimuovi" type="button">✕</button>
@@ -839,7 +954,7 @@ nav.tabbar button.active { color: var(--teal); }
         const payerName = it.payerId ? (people.find(p => p.id === it.payerId)?.name || '—') : '—';
         const descText = it.desc ? escapeHtml(it.desc) : (idx===0 ? 'Spesa totale' : 'Voce');
         return `<div class="item-strip">
-          <span class="strip-text">${escapeHtml(payerName)} · ${descText} · ${fmt(it.amount||0)}</span>
+          <span class="strip-text">${guessItemIcon(it.desc)} ${escapeHtml(payerName)} · ${descText} · ${fmt(it.amount||0)}</span>
           <button class="icon-btn" data-edit-item="${it.id}" title="Modifica" type="button">✏️</button>
           ${canDelete ? `<button class="icon-btn" data-del-item="${it.id}" title="Rimuovi" type="button">✕</button>` : ''}
         </div>`;
@@ -868,7 +983,10 @@ nav.tabbar button.active { color: var(--teal); }
           </div>
           <div class="field desc-field">
             <label>Descrizione</label>
-            <input type="text" data-desc="${it.id}" value="${escapeHtml(it.desc)}" placeholder="${idx===0 ? 'Spesa totale' : 'Es. benzina...'}">
+            <div class="desc-icon-row">
+              <span class="desc-icon" id="descIcon-${it.id}">${guessItemIcon(it.desc)}</span>
+              <input type="text" data-desc="${it.id}" value="${escapeHtml(it.desc)}" placeholder="${idx===0 ? 'Spesa totale' : 'Es. benzina...'}">
+            </div>
           </div>
           <div class="field amount-field">
             <label>€</label>
@@ -917,6 +1035,8 @@ nav.tabbar button.active { color: var(--teal); }
       inp.addEventListener('input', ()=>{
         const it = items.find(i => i.id === inp.dataset.desc);
         if(it) it.desc = inp.value;
+        const iconEl = document.getElementById('descIcon-' + inp.dataset.desc);
+        if(iconEl) iconEl.textContent = guessItemIcon(inp.value);
       });
     });
     
@@ -1124,16 +1244,28 @@ nav.tabbar button.active { color: var(--teal); }
     }
 
     const { persone, totali } = calcolaRipartizioneEquaERichiesta(personeReali);
+    let anyDelta = false;
 
-    container.innerHTML = persone.map(p => `
+    container.innerHTML = persone.map(p => {
+      const delta = round2(p.equo - p.reale);
+      let deltaHtml = '';
+      if(Math.abs(delta) > 0.01){
+        anyDelta = true;
+        const favorito = delta < 0; // paga meno nell'equo di quanto consumato nel reale
+        deltaHtml = `<span class="delta-badge ${favorito ? 'delta-fav' : 'delta-pen'}">${favorito ? '▼' : '▲'} ${favorito ? '−' : '+'}${fmt(Math.abs(delta))}</span>`;
+      }
+      return `
       <div class="level-row">
         <span class="lname">${escapeHtml(p.name)}${p.isFixed ? ' 🔒' : ''}</span>
         <span class="level-vals">
           <span class="lv"><span class="llabel">Reale</span><span class="lval">${fmt(p.reale)}</span></span>
-          <span class="lv"><span class="llabel">Equo</span><span class="lval">${fmt(p.equo)}</span></span>
+          <span class="lv"><span class="llabel">Equo</span><span class="lval">${fmt(p.equo)}</span>${deltaHtml}</span>
           <span class="lv richiesto"><span class="llabel">Richiesto</span><span class="lval">${fmt(p.richiesto)}</span></span>
         </span>
-      </div>`).join('');
+      </div>`;
+    }).join('') + (anyDelta
+      ? '<p class="delta-legend">▼ verde = paga meno del reale (favorito) · ▲ rosso = copre parte degli altri</p>'
+      : '<p class="delta-legend">✅ Nessuna differenza da segnalare: qui la spesa reale coincide già con la proporzione per peso di ciascuno (nessuna quota fissa o esclusione da una voce in questo evento).</p>');
 
     document.getElementById('totReale').textContent = fmt(totali.totaleReale);
     document.getElementById('totEquo').textContent = fmt(totali.totaleEquo);
@@ -1235,6 +1367,7 @@ nav.tabbar button.active { color: var(--teal); }
       list.innerHTML = '<p class="empty-note">Aggiungi partecipanti e importi per vedere il calcolo.</p>';
       return;
     }
+    const familyColors = assignFamilyColors();
     list.innerHTML = billing.map(p => {
       const meta = roleMeta(p.role);
       const own = owed[p.id] || 0;
@@ -1252,7 +1385,7 @@ nav.tabbar button.active { color: var(--teal); }
         </div>` : '';
       return `<div class="result-card">
         <div class="result-top">
-          <span class="avatar ${meta.cls}">${initials(p.name)}</span>
+          <span class="avatar ${meta.cls}"${familyRingStyle(p, familyColors)}>${initials(p.name)}</span>
           <span class="result-name">${escapeHtml(p.name)}<br><span class="result-role">${meta.label} · ${quotaLabel(p.quota)}</span></span>
           <span class="result-amount">${fmt(total)}</span>
         </div>
