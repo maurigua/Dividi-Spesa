@@ -350,7 +350,7 @@ nav.tabbar button.active { color: var(--teal); }
           <select id="pRole">
             <option value="normale">Partecipante</option>
             <option value="host">Organizzatore</option>
-            <option value="figlio">Figlio/a</option>
+            <option value="figlio">Collegato/a</option>
           </select>
         </div>
         <div class="field pf-quota">
@@ -376,7 +376,7 @@ nav.tabbar button.active { color: var(--teal); }
         </div>
       </div>
 
-      <!-- Campi extra per Figlio/a -->
+      <!-- Campi extra per Collegato/a -->
       <div class="subfields" id="figlioFields" style="display:none">
         <div class="field">
           <label for="figlioParent">Collegato a</label>
@@ -416,7 +416,7 @@ nav.tabbar button.active { color: var(--teal); }
 
     <div class="card">
       <div class="section-head"><span class="si">📋</span><h2>Elenco</h2></div>
-      <p class="section-hint">L'anello colorato sull'avatar collega ogni figlio/a al proprio genitore.</p>
+      <p class="section-hint">L'anello colorato collega ogni persona "Collegata" a chi è associata (non deve per forza essere un genitore: può essere una coppia, un gruppo di amici...).</p>
       <div class="plist" id="plist"></div>
     </div>
   </section>
@@ -527,7 +527,7 @@ nav.tabbar button.active { color: var(--teal); }
       <h3>👥 Persone</h3>
       <div class="guide-item"><span class="gi-ic">👤</span><span class="gi-txt"><b>Partecipante</b><span>Paga la quota piena (o quella scelta nel campo Quota), calcolata sulle voci a cui partecipa.</span></span></div>
       <div class="guide-item"><span class="gi-ic">🧭</span><span class="gi-txt"><b>Organizzatore</b><span>Di norma non versa una quota propria (è pensato per chi ha anticipato i soldi ma non "consuma" — puoi comunque impostargli una Quota se partecipa anche lui/lei alla spesa).</span></span></div>
-      <div class="guide-item"><span class="gi-ic">🧒</span><span class="gi-txt"><b>Figlio/a</b><span>Va collegato a un adulto già in elenco ("Collegato a"). Il suo importo si somma automaticamente al totale dell'adulto: non compare come debitore/creditore a sé, ma dentro il "Dettaglio" dell'adulto.</span></span></div>
+      <div class="guide-item"><span class="gi-ic">🧒</span><span class="gi-txt"><b>Collegato/a</b><span>Va associato a un'altra persona già in elenco ("Collegato a") — non deve per forza essere un figlio: può essere un partner, un'amica, chiunque la cui quota va sommata a un'altra persona. Il suo importo si somma automaticamente al totale della persona a cui è collegato: non compare come debitore/creditore a sé, ma dentro il "Dettaglio" di quella persona.</span></span></div>
       <div class="guide-item"><span class="gi-ic">⚖️</span><span class="gi-txt"><b>Quota: Intera / Mezza / Non paga</b><span>Determina il peso con cui quella persona partecipa alla divisione delle voci: 1, 0,5 oppure 0.</span></span></div>
       <div class="guide-item"><span class="gi-ic">🔒</span><span class="gi-txt"><b>Quota fissa</b><span>Un importo deciso da te, indipendente dalle voci. Nella scheda Voci puoi comunque includerla in una voce specifica come "extra": in quel caso quell'importo si somma alla sua quota fissa base.</span></span></div>
       <div class="guide-item"><span class="gi-ic">📱</span><span class="gi-txt"><b>Telefono</b><span>Facoltativo. Se lo inserisci, nella scheda Conto compare un link WhatsApp diretto per sollecitare quella persona con un messaggio già scritto.</span></span></div>
@@ -678,7 +678,7 @@ nav.tabbar button.active { color: var(--teal); }
     return {
       normale: {emoji:'👤', label:'Partecipante', cls:'role-normale'},
       host: {emoji:'🧭', label:'Organizzatore', cls:'role-host'},
-      figlio: {emoji:'🧒', label:'Figlio/a', cls:'role-figlio'}
+      figlio: {emoji:'🧒', label:'Collegato/a', cls:'role-figlio'}
     }[role];
   }
 
@@ -686,10 +686,22 @@ nav.tabbar button.active { color: var(--teal); }
     return {piena:'quota intera', meta:'metà quota', zero:'non paga', fissa:'quota fissa'}[q] || '';
   }
 
-  // Assegna un colore per famiglia: ogni adulto con almeno un figlio collegato riceve un colore,
-  // che si "eredita" come anello sull'avatar dei suoi figli, per riconoscerli a colpo d'occhio.
-  const FAMILY_COLORS = ['#E63946','#2A9D8F','#8E44AD','#457B9D','#D62872','#588157','#B5651D','#3D5A80'];
-  function assignFamilyColors(){
+  // Etichetta di una persona per le tendine: se è "Collegata" mostra a chi è associata,
+  // così si capisce il legame anche senza colori (es. nel menu a tendina nativo del telefono).
+  function personOptionLabel(p){
+    let label = p.name;
+    if(p.role === 'figlio' && p.parentId){
+      const linkedTo = people.find(pp => pp.id === p.parentId);
+      if(linkedTo) label += ` (↳ ${linkedTo.name})`;
+    }
+    if(isFixed(p)) label += ' (fissa)';
+    return label;
+  }
+
+  // Assegna un colore di gruppo: ogni persona con almeno una persona "Collegata" a lei riceve un colore,
+  // che si "eredita" come anello sull'avatar dei collegati, per riconoscerli a colpo d'occhio.
+  const GROUP_COLORS = ['#E63946','#2A9D8F','#8E44AD','#457B9D','#D62872','#588157','#B5651D','#3D5A80'];
+  function assignGroupColors(){
     const parentsWithKids = [];
     people.forEach(p => {
       if(p.role === 'figlio' && p.parentId && !parentsWithKids.includes(p.parentId)){
@@ -697,13 +709,13 @@ nav.tabbar button.active { color: var(--teal); }
       }
     });
     const map = {};
-    parentsWithKids.forEach((pid, i) => { map[pid] = FAMILY_COLORS[i % FAMILY_COLORS.length]; });
-    return map; // id del genitore -> colore
+    parentsWithKids.forEach((pid, i) => { map[pid] = GROUP_COLORS[i % GROUP_COLORS.length]; });
+    return map; // id della persona "principale" -> colore
   }
-  function familyRingStyle(person, familyColors){
+  function groupRingStyle(person, groupColors){
     let color = null;
-    if(person.role === 'figlio' && person.parentId) color = familyColors[person.parentId];
-    else if(familyColors[person.id]) color = familyColors[person.id];
+    if(person.role === 'figlio' && person.parentId) color = groupColors[person.parentId];
+    else if(groupColors[person.id]) color = groupColors[person.id];
     return color ? ` style="box-shadow: 0 0 0 2px ${color};"` : '';
   }
 
@@ -884,7 +896,7 @@ nav.tabbar button.active { color: var(--teal); }
       refreshParentOptions();
       return;
     }
-    const familyColors = assignFamilyColors();
+    const groupColors = assignGroupColors();
     list.innerHTML = people.map(p => {
       const meta = roleMeta(p.role);
       let tag = meta.label;
@@ -898,7 +910,7 @@ nav.tabbar button.active { color: var(--teal); }
       }
       if(p.phone) tag += ' · 📱';
       return `<div class="prow">
-        <span class="avatar ${meta.cls}"${familyRingStyle(p, familyColors)}>${initials(p.name)}</span>
+        <span class="avatar ${meta.cls}"${groupRingStyle(p, groupColors)}>${initials(p.name)}</span>
         <span class="pmeta"><span class="pname">${escapeHtml(p.name)}</span><span class="ptag">${tag}</span></span>
         <button class="icon-btn" data-edit-person="${p.id}" title="Modifica" type="button">✏️</button>
         <button class="icon-btn" data-remove="${p.id}" title="Rimuovi" type="button">✕</button>
@@ -1001,7 +1013,7 @@ nav.tabbar button.active { color: var(--teal); }
               <label>Persona</label>
               <select data-exc-person="${it.id}">
                 <option value="">— seleziona —</option>
-                ${people.map(p => `<option value="${p.id}">${escapeHtml(p.name)}${isFixed(p) ? ' (Fissa)' : ''}</option>`).join('')}
+                ${people.map(p => `<option value="${p.id}">${escapeHtml(personOptionLabel(p))}</option>`).join('')}
               </select>
             </div>
             <div class="field" style="max-width: 180px;">
@@ -1367,7 +1379,7 @@ nav.tabbar button.active { color: var(--teal); }
       list.innerHTML = '<p class="empty-note">Aggiungi partecipanti e importi per vedere il calcolo.</p>';
       return;
     }
-    const familyColors = assignFamilyColors();
+    const groupColors = assignGroupColors();
     list.innerHTML = billing.map(p => {
       const meta = roleMeta(p.role);
       const own = owed[p.id] || 0;
@@ -1385,7 +1397,7 @@ nav.tabbar button.active { color: var(--teal); }
         </div>` : '';
       return `<div class="result-card">
         <div class="result-top">
-          <span class="avatar ${meta.cls}"${familyRingStyle(p, familyColors)}>${initials(p.name)}</span>
+          <span class="avatar ${meta.cls}"${groupRingStyle(p, groupColors)}>${initials(p.name)}</span>
           <span class="result-name">${escapeHtml(p.name)}<br><span class="result-role">${meta.label} · ${quotaLabel(p.quota)}</span></span>
           <span class="result-amount">${fmt(total)}</span>
         </div>
