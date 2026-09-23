@@ -1201,14 +1201,22 @@ nav.tabbar button.active { color: var(--teal); }
   function calcolaRipartizioneEquaERichiesta(personeReali){
     const totaleReale = round2(personeReali.reduce((s,p)=> s + p.reale, 0));
 
-    // Calcolo del peso totale di tutto il gruppo
-    const pesoTotale = personeReali.reduce((s, p) => s + p.weight, 0);
+    // Chi ha peso 0 (quota fissa/non paga) resta fuori dalla perequazione: paga esattamente
+    // il suo importo reale, senza essere né favorito né penalizzato.
+    const totaleNonPesati = round2(personeReali.filter(p => p.weight <= 0).reduce((s,p)=> s + p.reale, 0));
+    const totalePesati = round2(totaleReale - totaleNonPesati);
 
-    // Ridistribuzione del totale reale proporzionalmente ai pesi
-    const conEquo = personeReali.map(p => ({
-      ...p,
-      equo: pesoTotale > 0 ? round2((totaleReale * p.weight) / pesoTotale) : round2(p.reale)
-    }));
+    // Perequazione INVERSAMENTE proporzionale al peso tra chi resta: chi ha MENO persone
+    // collegate (peso più basso, meno "carico") assorbe un piccolo arrotondamento in più;
+    // chi ne ha DI PIÙ (peso più alto) paga un po' meno.
+    const sommaInversi = personeReali.reduce((s,p)=> s + (p.weight > 0 ? 1 / p.weight : 0), 0);
+
+    const conEquo = personeReali.map(p => {
+      if(p.weight <= 0 || sommaInversi <= 0){
+        return { ...p, equo: round2(p.reale) };
+      }
+      return { ...p, equo: round2(totalePesati * (1 / p.weight) / sommaInversi) };
+    });
 
     // Il Livello 3 (Richiesto) applica l'arrotondamento al mezzo euro superiore
     const conRichiesto = conEquo.map(p => ({
