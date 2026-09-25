@@ -461,7 +461,9 @@ nav.tabbar button.active { color: var(--teal); }
         <div style="display:flex;justify-content:space-between;"><span>Totale equo</span><span id="totEquo">0,00 €</span></div>
         <div style="display:flex;justify-content:space-between;"><span>Totale richiesto</span><span class="amt" id="totRichiesto">0,00 €</span></div>
         <div style="display:flex;justify-content:space-between;color:var(--debit);font-weight:700;"><span>Differenza (surplus)</span><span id="totSurplus">0,00 €</span></div>
+        <div id="rowResiduoTetto" style="display:none;justify-content:space-between;color:var(--debit);font-weight:700;"><span>Non assorbito dal tetto</span><span id="totResiduoTetto">0,00 €</span></div>
       </div>
+      <p class="section-hint" id="hintResiduoTetto" style="display:none; margin-top:6px;">Con pesi molto sbilanciati, il tetto massimo (5€/10€) impedisce a volte di ribilanciare tutto: questo importo resta scoperto nella sola vista "Equo" — il Conto (chi deve dare a chi) non ne risente, si basa sempre sul Reale.</p>
     </div>
   </section>
 
@@ -1203,20 +1205,41 @@ nav.tabbar button.active { color: var(--teal); }
 
     // Chi ha peso 0 (quota fissa/non paga) resta fuori dalla perequazione: paga esattamente
     // il suo importo reale, senza essere né favorito né penalizzato.
-    const totaleNonPesati = round2(personeReali.filter(p => p.weight <= 0).reduce((s,p)=> s + p.reale, 0));
-    const totalePesati = round2(totaleReale - totaleNonPesati);
+    const pesati = personeReali.filter(p => p.weight > 0);
+    const nonPesati = personeReali.filter(p => p.weight <= 0);
+    const totalePesati = round2(pesati.reduce((s,p)=> s + p.reale, 0));
+    const sommaInversi = pesati.reduce((s,p)=> s + 1 / p.weight, 0);
 
-    // Perequazione INVERSAMENTE proporzionale al peso tra chi resta: chi ha MENO persone
-    // collegate (peso più basso, meno "carico") assorbe un piccolo arrotondamento in più;
-    // chi ne ha DI PIÙ (peso più alto) paga un po' meno.
-    const sommaInversi = personeReali.reduce((s,p)=> s + (p.weight > 0 ? 1 / p.weight : 0), 0);
-
-    const conEquo = personeReali.map(p => {
-      if(p.weight <= 0 || sommaInversi <= 0){
-        return { ...p, equo: round2(p.reale) };
-      }
-      return { ...p, equo: round2(totalePesati * (1 / p.weight) / sommaInversi) };
+    // Scostamento ideale (senza tetto) di ciascuno: per costruzione la somma è sempre zero,
+    // cioè si "spostano" euro da chi ha più peso a chi ne ha meno senza perdere né creare nulla.
+    const idealeScostamenti = pesati.map(p => {
+      if(sommaInversi <= 0) return 0;
+      const idealeEquo = totalePesati * (1 / p.weight) / sommaInversi;
+      return idealeEquo - p.reale;
     });
+
+    // Tetto massimo per persona: deve restare un "piccolo arrotondamento", non una vera
+    // redistribuzione. Max 5 € sotto i 100 € di reale, max 10 € oltre.
+    const tetti = pesati.map(p => p.reale < 100 ? 5 : 10);
+
+    // Invece di tagliare ogni scostamento singolarmente (che romperebbe il totale se troppe
+    // persone finissero al tetto insieme), si scala TUTTA la ripartizione con un unico
+    // fattore, scelto in modo che la persona più vicina al proprio tetto lo raggiunga
+    // esattamente e nessun'altra lo superi. Così il totale torna sempre esatto per
+    // costruzione — non serve più "recuperare" nulla da nessuna parte.
+    let fattoreScala = 1;
+    idealeScostamenti.forEach((d, i) => {
+      if(Math.abs(d) > 1e-9){
+        const consentito = tetti[i] / Math.abs(d);
+        if(consentito < fattoreScala) fattoreScala = consentito;
+      }
+    });
+    const scostamenti = idealeScostamenti.map(d => d * fattoreScala);
+
+    const conEquo = [
+      ...nonPesati.map(p => ({ ...p, equo: round2(p.reale) })),
+      ...pesati.map((p, i) => ({ ...p, equo: round2(p.reale + scostamenti[i]) }))
+    ];
 
     // Il Livello 3 (Richiesto) applica l'arrotondamento al mezzo euro superiore
     const conRichiesto = conEquo.map(p => ({
@@ -1233,7 +1256,8 @@ nav.tabbar button.active { color: var(--teal); }
         totaleReale,
         totaleEquo,
         totaleRichiesto,
-        surplus: round2(totaleRichiesto - totaleEquo)
+        surplus: round2(totaleRichiesto - totaleEquo),
+        residuoNonAssorbito: round2(totaleReale - totaleEquo)
       }
     };
   }
@@ -1260,6 +1284,8 @@ nav.tabbar button.active { color: var(--teal); }
       document.getElementById('totEquo').textContent = fmt(0);
       document.getElementById('totRichiesto').textContent = fmt(0);
       document.getElementById('totSurplus').textContent = fmt(0);
+      document.getElementById('rowResiduoTetto').style.display = 'none';
+      document.getElementById('hintResiduoTetto').style.display = 'none';
       return;
     }
 
@@ -1291,6 +1317,17 @@ nav.tabbar button.active { color: var(--teal); }
     document.getElementById('totEquo').textContent = fmt(totali.totaleEquo);
     document.getElementById('totRichiesto').textContent = fmt(totali.totaleRichiesto);
     document.getElementById('totSurplus').textContent = fmt(totali.surplus);
+
+    const rowResiduo = document.getElementById('rowResiduoTetto');
+    const hintResiduo = document.getElementById('hintResiduoTetto');
+    if(Math.abs(totali.residuoNonAssorbito || 0) > 0.01){
+      rowResiduo.style.display = 'flex';
+      hintResiduo.style.display = 'block';
+      document.getElementById('totResiduoTetto').textContent = fmt(Math.abs(totali.residuoNonAssorbito));
+    } else {
+      rowResiduo.style.display = 'none';
+      hintResiduo.style.display = 'none';
+    }
   }
 
   function recompute(){
